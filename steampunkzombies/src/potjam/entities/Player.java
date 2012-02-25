@@ -1,16 +1,11 @@
 package potjam.entities;
 
-import java.io.IOException;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.particles.ParticleIO;
-import org.newdawn.slick.particles.ParticleSystem;
 
 import potjam.shared.Camera;
 import potjam.shared.MouseInput;
@@ -137,7 +132,7 @@ public class Player extends CharacterEntity {
 		addAnimation("walkLeft", anim);
 		
 		//Stand right
-		sheet = new SpriteSheet("ressources/Hero.png", width, height);
+		sheet = new SpriteSheet("ressources/Hero_Test.png", 46, 75);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
 		anim.addFrame(sheet.getSprite(0, 0), 200);

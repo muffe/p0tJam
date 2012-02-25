@@ -109,7 +109,7 @@ public abstract class CharacterEntity extends Entity {
 	/**
 	 * Kollision mit allen MapEntity Objekten der ArrayList.
 	 * 
-	 * TO DO: Bei Implementation der Map mit richtiger ArrayList ersetzen!
+	 * TODO: Bei Implementation der Map mit richtiger ArrayList ersetzen!
 	 * 
 	 * @param interpX
 	 * @param interpY
@@ -213,5 +213,13 @@ public abstract class CharacterEntity extends Entity {
 
 	public void setFallSpeedCurrent(float fallSpeedCurrent) {
 		this.fallSpeedCurrent = fallSpeedCurrent;
+	}
+
+	public float getFallSpeedIncrement() {
+		return fallSpeedIncrement;
+	}
+
+	public void setFallSpeedIncrement(float fallSpeedIncrement) {
+		this.fallSpeedIncrement = fallSpeedIncrement;
 	}
 }

@@ -50,8 +50,6 @@ public class PotJamMain extends BasicGame {
 		MouseInput.update(gc);
 		this.player.update(gc, delta);
 		this.zombie.update(gc, delta);
-		
-		for(int i = 0; i < 10000000; i++);
 	}
 
 	/**
@@ -59,11 +57,12 @@ public class PotJamMain extends BasicGame {
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		//Camera - Muss als erstes gezeichnet werden
 		g.setBackground(new Color(0,100,200));
+		
+		//Camera - Muss als erstes gezeichnet werden
 		Camera.draw(g);
-		this.player.draw(gc, g);
 		this.zombie.draw(gc, g);
+		this.player.draw(gc, g);
 		
 		for(int i = 0; i < blockList.size(); i++) {
 			blockList.get(i).draw(gc, g);
