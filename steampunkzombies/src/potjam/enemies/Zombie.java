@@ -2,10 +2,12 @@ package potjam.enemies;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import potjam.entities.CharacterEntity;
+import potjam.main.PotJamMain;
 import potjam.weapons.ZombieClaw;
 
 public class Zombie extends CharacterEntity {
@@ -17,7 +19,7 @@ public class Zombie extends CharacterEntity {
 		super(x, y, width, height);
 		initAnimations();
 		this.setSpeed(0.03f);
-		this.setActiveWeapon(new ZombieClaw(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight()));
+		this.setActiveWeapon(new ZombieClaw(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight(), this));
 		this.attacking = false;
 		this.attackAnimationTime = 1000.0f;
 		this.attackAnimationTimeCounter = 0.0f;
@@ -36,9 +38,27 @@ public class Zombie extends CharacterEntity {
 		
 		this.fall(delta);
 	}
+	
+	public void draw(GameContainer gc, Graphics g) {
+		super.draw(gc, g);
+		this.getActiveWeapon().draw(gc, g);
+	}
 
 	private void attackAI(GameContainer gc, int delta) {
-		if(collidedWithPlayer(this.getMoveSpeed()*delta, 0) || this.attacking) {
+		//Spieler links oder rechts vom Zombie
+		boolean facingPlayer = false;
+		
+		if(this.getLastMovingDirection() == 0) {
+			if(PotJamMain.player.getMinX() < this.getMinX()) { //TODO: player bei Einbau der Map mit richtigem player Objekt ersetzen
+				facingPlayer = true;
+			}
+		} else {
+			if(PotJamMain.player.getMinX() > this.getMinX()) {
+				facingPlayer = true;
+			}
+		}
+		
+		if((collidedWithPlayer(this.getMoveSpeed()*delta, 0) && facingPlayer) || this.attacking) {
 			this.attacking = true;
 			
 			if(this.getLastMovingDirection() == 0) {

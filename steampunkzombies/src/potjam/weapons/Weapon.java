@@ -2,17 +2,19 @@ package potjam.weapons;
 
 import org.newdawn.slick.GameContainer;
 
-import potjam.entities.Entity;
-import potjam.entities.Player;
+import potjam.entities.CharacterEntity;
+import potjam.entities.CollisionEntity;
 
-public abstract class Weapon extends Entity {
+public abstract class Weapon extends CollisionEntity {
+	private CharacterEntity user;
 	private float damage;
 	private float reUseTime;
 	private float reUseTimeCounter;
 	private int ammunition;
 	
-	public Weapon(float x, float y, float width, float height) {
+	public Weapon(float x, float y, float width, float height, CharacterEntity e) {
 		super(x, y, width, height);
+		this.user = e;
 		this.damage = 10.0f;
 		this.reUseTime = 1000.0f;
 		this.reUseTimeCounter = 0.0f;
@@ -64,5 +66,13 @@ public abstract class Weapon extends Entity {
 
 	public void setReUseTimeCounter(float reUseTimeCounter) {
 		this.reUseTimeCounter = reUseTimeCounter;
+	}
+
+	public CharacterEntity getUser() {
+		return user;
+	}
+
+	public void setUser(CharacterEntity user) {
+		this.user = user;
 	}
 }

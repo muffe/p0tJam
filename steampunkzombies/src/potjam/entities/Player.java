@@ -26,7 +26,7 @@ public class Player extends CharacterEntity {
 		initAnimations();
 		setAnimation(getAnimationByKey("standRight"), true);
 		Camera.centerCamera(1152, 648, this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
-		this.setActiveWeapon(new FlintlockPistol(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight()));
+		this.setActiveWeapon(new FlintlockPistol(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight(), this));
 	}
 
 	/**

@@ -42,8 +42,8 @@ public class PotJamMain extends BasicGame {
 		this.zombies = new ArrayList<Zombie>();
 		
 		try {
-			this.zombies.add(new Zombie(300, 300, 46, 75));
-			this.zombies.add(new Zombie(700, 200, 46, 75));
+			this.zombies.add(new Zombie(300, 300, 48, 73));
+			this.zombies.add(new Zombie(700, 200, 48, 73));
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

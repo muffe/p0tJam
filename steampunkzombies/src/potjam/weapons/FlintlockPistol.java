@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import potjam.entities.CharacterEntity;
 import potjam.entities.Player;
 import potjam.main.PotJamMain;
 import potjam.shared.MouseInput;
@@ -15,8 +16,8 @@ public class FlintlockPistol extends Weapon {
 	private float speed;
 	private float projectileSize;
 
-	public FlintlockPistol(float x, float y, float width, float height) {
-		super(x, y, width, height);
+	public FlintlockPistol(float x, float y, float width, float height, CharacterEntity e) {
+		super(x, y, width, height, e);
 		projectiles = new ArrayList<Projectile>();
 		speed = 1.0f;
 		projectileSize = 10;
