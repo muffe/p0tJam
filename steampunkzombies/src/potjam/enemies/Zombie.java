@@ -1,6 +1,7 @@
 package potjam.enemies;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -41,7 +42,6 @@ public class Zombie extends CharacterEntity {
 	
 	public void draw(GameContainer gc, Graphics g) {
 		super.draw(gc, g);
-		this.getActiveWeapon().draw(gc, g);
 	}
 
 	private void attackAI(GameContainer gc, int delta) {
