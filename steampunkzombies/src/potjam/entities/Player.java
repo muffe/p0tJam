@@ -13,8 +13,6 @@ import potjam.weapons.FlintlockPistol;
 import potjam.weapons.Weapon;
 
 public class Player extends CharacterEntity {
-	private Weapon activeWeapon;
-	
 	/**
 	 * Position und Dimension.
 	 * @param x
@@ -28,7 +26,7 @@ public class Player extends CharacterEntity {
 		initAnimations();
 		setAnimation(getAnimationByKey("standRight"), true);
 		Camera.centerCamera(1152, 648, this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
-		activeWeapon = new FlintlockPistol(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight());
+		this.setActiveWeapon(new FlintlockPistol(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight()));
 	}
 
 	/**
@@ -36,11 +34,16 @@ public class Player extends CharacterEntity {
 	 */
 	@Override
 	public void update(GameContainer gc, int delta) {
-		activeWeapon.update(gc, delta);
+		this.getActiveWeapon().update(gc, delta);
+		this.getUserInput(gc, delta);
 		
-		this.getUserInput(gc);
+		boolean hasMoved = true;
+		if(!collidedWithWorld(this.getMoveSpeed()*delta, 0)) {
+			this.move(delta);
+		} else {
+			hasMoved = false;
+		}
 		
-		boolean hasMoved = this.move(delta);
 		this.fall(delta);
 		
 		if(hasMoved) {
@@ -51,14 +54,14 @@ public class Player extends CharacterEntity {
 	
 	public void draw(GameContainer gc, Graphics g) {
 		super.draw(gc, g);
-		activeWeapon.draw(gc, g);
+		this.getActiveWeapon().draw(gc, g);
 	}
 
 	/**
 	 * Input abfragen und verarbeiten.
 	 * @param gc
 	 */
-	private void getUserInput(GameContainer gc) {
+	private void getUserInput(GameContainer gc, int delta) {
 		//Mausabfrage - Links oder Rechts vom Spieler
 		if(MouseInput.getMouseX() < this.getMinX() + this.getWidth()/2) {
 			this.setLastMovingDirection(0);
@@ -68,7 +71,7 @@ public class Player extends CharacterEntity {
 		
 		//Maustastenabfrage
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			activeWeapon.use(gc, this);
+			this.getActiveWeapon().use(gc, delta);
 		}
 		
 		//Tastenabfrage - Links

@@ -7,6 +7,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import potjam.weapons.Weapon;
+
 public abstract class CharacterEntity extends CollisionEntity {
 	private HashMap<String, Animation> animationMap;
 	
@@ -14,6 +16,7 @@ public abstract class CharacterEntity extends CollisionEntity {
 	 * Speichert auszufuehrende Animation
 	 */
 	private Animation animation;
+	private Weapon activeWeapon;
 	
 	/**
 	 * Gibt an, in welche Richtung der Charakter zuletzt geschaut hat. 0 = links, 1 = rechts.
@@ -77,12 +80,8 @@ public abstract class CharacterEntity extends CollisionEntity {
 	 * @param delta
 	 * @return
 	 */
-	public boolean move(int delta) {
-		if(!collidedWithWorld(this.moveSpeed*delta, 0)) {
+	public void move(int delta) {
 			this.setX(this.getX() + this.moveSpeed*delta);
-			return true;
-		}
-		return false;
 	}
 	
 	/**
@@ -190,5 +189,13 @@ public abstract class CharacterEntity extends CollisionEntity {
 
 	public void setFallSpeedIncrement(float fallSpeedIncrement) {
 		this.fallSpeedIncrement = fallSpeedIncrement;
+	}
+
+	public Weapon getActiveWeapon() {
+		return activeWeapon;
+	}
+
+	public void setActiveWeapon(Weapon activeWeapon) {
+		this.activeWeapon = activeWeapon;
 	}
 }

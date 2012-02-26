@@ -19,7 +19,9 @@ public abstract class Weapon extends Entity {
 		this.ammunition = -1;
 	}
 	
-	public abstract void use(GameContainer gc, Player player);
+	public void use(GameContainer gc, int delta) {
+		this.setReUseTimeCounter(0.0f);
+	}
 	
 	@Override
 	public void update(GameContainer gc, int delta) {

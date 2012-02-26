@@ -62,5 +62,30 @@ public abstract class CollisionEntity extends Entity {
 		
 		return collided;
 	}
+	
+	/**
+	 * Kollision mit allen Spieler Objekten.
+	 * 
+	 * TODO: Bei Implementation der Map mit richtigen Objekten ersetzen!
+	 * 
+	 * @param interpX
+	 * @param interpY
+	 * @return
+	 */
+	public boolean collidedWithPlayer(float interpX, float interpY) {
+		boolean collided = false;
+		
+		this.setX(this.getX() + interpX);
+		this.setY(this.getY() + interpY);
+		
+		if(this.intersects(PotJamMain.player) || this.contains(PotJamMain.player) || PotJamMain.player.contains(this)) {
+			collided = true;
+		}
+		
+		this.setX(this.getX() - interpX);
+		this.setY(this.getY() - interpY);
+		
+		return collided;
+	}
 
 }

@@ -41,7 +41,7 @@ public abstract class MapEntity extends Entity {
 			}
 			
 			//Debug
-			g.draw(this);
+			//g.draw(this);
 		} else {
 			g.draw(this);
 		}

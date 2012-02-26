@@ -6,6 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import potjam.entities.Player;
+import potjam.main.PotJamMain;
 import potjam.shared.MouseInput;
 import potjam.shared.Point;
 
@@ -23,15 +24,16 @@ public class FlintlockPistol extends Weapon {
 	}
 
 	@Override
-	public void use(GameContainer gc, Player player) {
+	public void use(GameContainer gc, int delta) {
 		if(this.getReUseTimeCounter() >= this.getReUseTime()) {
-			float midX = player.getMinX() + player.getWidth()/2 - projectileSize/2;
-			float midY = player.getMinY() + player.getHeight()/2 - projectileSize/2;
+			float midX = PotJamMain.player.getMinX() +PotJamMain.player.getWidth()/2 - projectileSize/2;
+			float midY = PotJamMain.player.getMinY() + PotJamMain.player.getHeight()/2 - projectileSize/2;
 			Projectile p = new Projectile(midX, midY, projectileSize, projectileSize, speed);
 			p.calculateSpeed(new Point(midX, midY), new Point(MouseInput.getMouseX(), MouseInput.getMouseY()));
 			this.projectiles.add(p);
 			
-			this.setReUseTimeCounter(0.0f);
+			//reUseTimeCounter Reset
+			super.use(gc, delta);
 		}
 	}
 
