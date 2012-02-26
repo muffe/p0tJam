@@ -13,13 +13,15 @@ public class Projectile extends CollisionEntity {
 	private float speedY;
 	private float lifeTime;
 	private float lifeTimeCounter;
+	private Weapon currentWeapon;
 	
-	public Projectile(float x, float y, float width, float height, float speed) {
+	public Projectile(float x, float y, float width, float height, float speed, Weapon w) {
 		super(x, y, width, height);
 		this.speed = speed;
 		speedX = 0;
 		speedY = 0;
 		lifeTime = 1000.0f;
+		this.setCurrentWeapon(w);
 	}
 
 	@Override
@@ -40,7 +42,8 @@ public class Projectile extends CollisionEntity {
 		} else {
 			if(this.collidedWithCharacter(speedX*delta, speedY*delta) != -1)
 			{
-				System.out.println("Hit Entity "+PotJamMain.zombies.get(this.collidedWithCharacter(speedX*delta, speedY*delta)));
+				System.out.println(this.getCurrentWeapon()+" Hit Entity "+PotJamMain.zombies.get(this.collidedWithCharacter(speedX*delta, speedY*delta)));
+				PotJamMain.zombies.get(this.collidedWithCharacter(speedX*delta, speedY*delta)).hurt(this.getCurrentWeapon().getDamage());				
 			}
 			this.lifeTimeCounter = this.lifeTime;
 		}
@@ -99,6 +102,14 @@ public class Projectile extends CollisionEntity {
 
 	public void setLifeTimeCounter(float lifeTimeCounter) {
 		this.lifeTimeCounter = lifeTimeCounter;
+	}
+
+	public Weapon getCurrentWeapon() {
+		return currentWeapon;
+	}
+
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		this.currentWeapon = currentWeapon;
 	}
 
 }

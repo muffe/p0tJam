@@ -22,6 +22,7 @@ public abstract class CharacterEntity extends CollisionEntity {
 	 * Gibt an, in welche Richtung der Charakter zuletzt geschaut hat. 0 = links, 1 = rechts.
 	 */
 	private int lastMovingDirection;
+	private float hitPoints;
 	private float speed;
 	private float moveSpeed;
 	private float fallSpeedMax;
@@ -29,6 +30,7 @@ public abstract class CharacterEntity extends CollisionEntity {
 	private float fallSpeedIncrement;
 	private float jumpHeight;
 	private boolean jumping;
+	private boolean dead;
 	
 	/**
 	 * Maﬂe und Position.
@@ -49,6 +51,7 @@ public abstract class CharacterEntity extends CollisionEntity {
 		this.fallSpeedIncrement = 0.002f;
 		this.jumpHeight = 0.7f;
 		this.jumping = false;
+		this.hitPoints = 100;
 	}
 	
 	/**
@@ -98,6 +101,20 @@ public abstract class CharacterEntity extends CollisionEntity {
 		} else {
 			this.fallSpeedCurrent = 0.0f;
 			this.jumping = false;
+		}
+	}
+	
+	/**
+	 * Entity bekommt Schaden
+	 * @param f
+	 */
+	
+	public void hurt(float f) 
+	{
+		this.setHitPoints(this.getHitPoints() - f);
+		if(this.getHitPoints() <= 0)
+		{
+			this.setDead(true);
 		}
 	}
 	
@@ -197,5 +214,21 @@ public abstract class CharacterEntity extends CollisionEntity {
 
 	public void setActiveWeapon(Weapon activeWeapon) {
 		this.activeWeapon = activeWeapon;
+	}
+
+	public float getHitPoints() {
+		return hitPoints;
+	}
+
+	public void setHitPoints(float f) {
+		this.hitPoints = f;
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 }
