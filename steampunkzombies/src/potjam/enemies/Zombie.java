@@ -38,6 +38,10 @@ public class Zombie extends CharacterEntity {
 		}
 		
 		this.fall(delta);
+		if(this.isDead())
+		{
+			PotJamMain.zombies.remove(this);
+		}
 	}
 	
 	public void draw(GameContainer gc, Graphics g) {
