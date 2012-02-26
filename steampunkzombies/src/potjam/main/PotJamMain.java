@@ -18,7 +18,7 @@ import potjam.shared.MouseInput;
 public class PotJamMain extends BasicGame {
 	private Player player;
 	public static ArrayList<Block> blockList;
-	private Zombie zombie;
+	public static ArrayList<Zombie> zombies;
 	
 	/**
 	 * Titel uebergen, initialisieren.
@@ -28,6 +28,8 @@ public class PotJamMain extends BasicGame {
 		super(title);
 	}
 
+	//TODO: Bei Implementation der Map, ArrayList fuer Bloecke und Zombies mit richtigen ersetzen!
+	
 	/**
 	 * Alle Initialisierungen hier
 	 */
@@ -37,7 +39,16 @@ public class PotJamMain extends BasicGame {
 		MouseInput.init();
 		
 		this.player = new Player(300, 300, 46, 75);
-		this.zombie = new Zombie(300, 300, 46, 75);
+		this.zombies = new ArrayList<Zombie>();
+		
+		try {
+			this.zombies.add(new Zombie(300, 300, 46, 75));
+			this.zombies.add(new Zombie(400, 200, 46, 75));
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		blockList = new ArrayList<Block>();
 		blockList.add(new Block(0, 500, 1152, 500));
 	}
@@ -49,7 +60,9 @@ public class PotJamMain extends BasicGame {
 	public void update(GameContainer gc, int delta) {
 		MouseInput.update(gc);
 		this.player.update(gc, delta);
-		this.zombie.update(gc, delta);
+		for(int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).update(gc, delta);
+		}
 	}
 
 	/**
@@ -61,7 +74,11 @@ public class PotJamMain extends BasicGame {
 		
 		//Camera - Muss als erstes gezeichnet werden
 		Camera.draw(g);
-		this.zombie.draw(gc, g);
+		
+		for(int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).draw(gc, g);
+		}
+		
 		this.player.draw(gc, g);
 		
 		for(int i = 0; i < blockList.size(); i++) {

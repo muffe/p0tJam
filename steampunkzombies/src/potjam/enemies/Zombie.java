@@ -43,7 +43,7 @@ public class Zombie extends CharacterEntity {
 			interpX = -interpX;
 		}
 		
-		endOfBlockReached = !this.collided(interpX, interpY);
+		endOfBlockReached = !this.collidedWithWorld(interpX, interpY);
 		
 		return endOfBlockReached;
 	}

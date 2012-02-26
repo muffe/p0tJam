@@ -6,12 +6,8 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Polygon;
 
-import potjam.main.PotJamMain;
-import potjam.map.MapEntity;
-
-public abstract class CharacterEntity extends Entity {
+public abstract class CharacterEntity extends CollisionEntity {
 	private HashMap<String, Animation> animationMap;
 	
 	/**
@@ -82,7 +78,7 @@ public abstract class CharacterEntity extends Entity {
 	 * @return
 	 */
 	public boolean move(int delta) {
-		if(!collided(this.moveSpeed*delta, 0)) {
+		if(!collidedWithWorld(this.moveSpeed*delta, 0)) {
 			this.setX(this.getX() + this.moveSpeed*delta);
 			return true;
 		}
@@ -98,39 +94,12 @@ public abstract class CharacterEntity extends Entity {
 			this.fallSpeedCurrent += this.fallSpeedIncrement*delta;
 		}
 		
-		if(!collided(0, this.fallSpeedCurrent*delta)) {
+		if(!collidedWithWorld(0, this.fallSpeedCurrent*delta)) {
 			this.setY(this.getY() + this.fallSpeedCurrent*delta - 0.5f*this.fallSpeedIncrement*delta*delta);
 		} else {
 			this.fallSpeedCurrent = 0.0f;
 			this.jumping = false;
 		}
-	}
-	
-	/**
-	 * Kollision mit allen MapEntity Objekten der ArrayList.
-	 * 
-	 * TODO: Bei Implementation der Map mit richtiger ArrayList ersetzen!
-	 * 
-	 * @param interpX
-	 * @param interpY
-	 * @return
-	 */
-	public boolean collided(float interpX, float interpY) {
-		boolean collided = false;
-		this.setX(this.getX() + interpX);
-		this.setY(this.getY() + interpY);
-		
-		for(int i = 0; i < PotJamMain.blockList.size(); i++) {
-			if(this.intersects(PotJamMain.blockList.get(i)) || this.contains(PotJamMain.blockList.get(i)) || PotJamMain.blockList.get(i).contains(this)) {
-				collided = true;
-				break;
-			}
-		}
-		
-		this.setX(this.getX() - interpX);
-		this.setY(this.getY() - interpY);
-		
-		return collided;
 	}
 	
 	/**

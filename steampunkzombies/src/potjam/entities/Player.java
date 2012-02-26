@@ -9,8 +9,11 @@ import org.newdawn.slick.SpriteSheet;
 
 import potjam.shared.Camera;
 import potjam.shared.MouseInput;
+import potjam.weapons.FlintlockPistol;
+import potjam.weapons.Weapon;
 
 public class Player extends CharacterEntity {
+	private Weapon activeWeapon;
 	
 	/**
 	 * Position und Dimension.
@@ -25,6 +28,7 @@ public class Player extends CharacterEntity {
 		initAnimations();
 		setAnimation(getAnimationByKey("standRight"), true);
 		Camera.centerCamera(1152, 648, this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
+		activeWeapon = new FlintlockPistol(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight());
 	}
 
 	/**
@@ -32,6 +36,8 @@ public class Player extends CharacterEntity {
 	 */
 	@Override
 	public void update(GameContainer gc, int delta) {
+		activeWeapon.update(gc, delta);
+		
 		this.getUserInput(gc);
 		
 		boolean hasMoved = this.move(delta);
@@ -45,6 +51,7 @@ public class Player extends CharacterEntity {
 	
 	public void draw(GameContainer gc, Graphics g) {
 		super.draw(gc, g);
+		activeWeapon.draw(gc, g);
 	}
 
 	/**
@@ -57,6 +64,11 @@ public class Player extends CharacterEntity {
 			this.setLastMovingDirection(0);
 		} else {
 			this.setLastMovingDirection(1);
+		}
+		
+		//Maustastenabfrage
+		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			activeWeapon.use(gc, this);
 		}
 		
 		//Tastenabfrage - Links
