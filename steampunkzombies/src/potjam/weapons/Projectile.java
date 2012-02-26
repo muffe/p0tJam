@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import potjam.entities.CollisionEntity;
+import potjam.main.PotJamMain;
 import potjam.shared.Point;
 
 public class Projectile extends CollisionEntity {
@@ -33,10 +34,14 @@ public class Projectile extends CollisionEntity {
 	}
 	
 	private void move(int delta) {
-		if(!this.collidedWithWorld(speedX*delta, speedY*delta) && !this.collidedWithCharacter(speedX*delta, speedY*delta)) {
+		if(!this.collidedWithWorld(speedX*delta, speedY*delta) && this.collidedWithCharacter(speedX*delta, speedY*delta) == -1) {
 			this.setX(this.getX() + speedX * delta);
 			this.setY(this.getY() + speedY * delta);
 		} else {
+			if(this.collidedWithCharacter(speedX*delta, speedY*delta) != -1)
+			{
+				System.out.println("Hit Entity "+PotJamMain.zombies.get(this.collidedWithCharacter(speedX*delta, speedY*delta)));
+			}
 			this.lifeTimeCounter = this.lifeTime;
 		}
 	}

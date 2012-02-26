@@ -44,15 +44,15 @@ public abstract class CollisionEntity extends Entity {
 	 * @param interpY
 	 * @return
 	 */
-	public boolean collidedWithCharacter(float interpX, float interpY) {
-		boolean collided = false;
+	public int collidedWithCharacter(float interpX, float interpY) {
+		int collidedIndex = -1;
 		
 		this.setX(this.getX() + interpX);
 		this.setY(this.getY() + interpY);
 		
 		for(int i = 0; i < PotJamMain.zombies.size(); i++) {
 			if(this.intersects(PotJamMain.zombies.get(i)) || this.contains(PotJamMain.zombies.get(i)) || PotJamMain.zombies.get(i).contains(this)) {
-				collided = true;
+				collidedIndex = i;
 				break;
 			}
 		}
@@ -60,7 +60,7 @@ public abstract class CollisionEntity extends Entity {
 		this.setX(this.getX() - interpX);
 		this.setY(this.getY() - interpY);
 		
-		return collided;
+		return collidedIndex;
 	}
 	
 	/**
