@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 
 import potjam.entities.CharacterEntity;
@@ -15,6 +16,10 @@ public class Zombie extends CharacterEntity {
 	private boolean attacking;
 	private float attackAnimationTime;
 	private float attackAnimationTimeCounter;
+	private String moveState;
+	private String attackState;
+	private boolean lostHead;
+	private Sound attackSound;
 	
 	public Zombie(float x, float y, float width, float height) throws SlickException {
 		super(x, y, width, height);
@@ -24,6 +29,10 @@ public class Zombie extends CharacterEntity {
 		this.attacking = false;
 		this.attackAnimationTime = 1000.0f;
 		this.attackAnimationTimeCounter = 0.0f;
+		this.moveState = "Walk";
+		this.attackState = "Attack";
+		this.lostHead = false;
+		this.attackSound = new Sound("ressources/sounds/Zombie_Attack.wav");
 	}
 	
 
@@ -41,6 +50,15 @@ public class Zombie extends CharacterEntity {
 		if(this.isDead())
 		{
 			PotJamMain.zombies.remove(this);
+		}
+		
+		if(this.getHitPoints() <= 50) {
+			this.moveState = "WalkHeadless";
+			this.attackState = "AttackHeadless";
+			if(!this.lostHead) {
+				this.lostHead = true;
+				
+			}
 		}
 	}
 	
@@ -63,12 +81,16 @@ public class Zombie extends CharacterEntity {
 		}
 		
 		if((collidedWithPlayer(this.getMoveSpeed()*delta, 0) && facingPlayer) || this.attacking) {
+			if(!this.attacking) {
+				this.attackSound.play();
+			}
+			
 			this.attacking = true;
 			
 			if(this.getLastMovingDirection() == 0) {
-				this.setAnimation(this.getAnimationByKey("attackLeft"), true);
+				this.setAnimation(this.getAnimationByKey("left"+this.attackState), true);
 			} else {
-				this.setAnimation(this.getAnimationByKey("attackRight"), true);
+				this.setAnimation(this.getAnimationByKey("right"+this.attackState), true);
 			}
 			
 			if(this.attackAnimationTimeCounter >= this.attackAnimationTime) {
@@ -80,9 +102,9 @@ public class Zombie extends CharacterEntity {
 			}
 		} else {
 			if(this.getLastMovingDirection() == 0) {
-				this.setAnimation(this.getAnimationByKey("walkLeft"), true);
+				this.setAnimation(this.getAnimationByKey("left"+this.moveState), true);
 			} else {
-				this.setAnimation(this.getAnimationByKey("walkRight"), true);
+				this.setAnimation(this.getAnimationByKey("right"+this.moveState), true);
 			}
 		}
 	}
@@ -93,11 +115,11 @@ public class Zombie extends CharacterEntity {
 			if(this.getLastMovingDirection() == 0) {
 				this.setLastMovingDirection(1);
 				this.setMoveSpeed(this.getSpeed());
-				this.setAnimation(this.getAnimationByKey("walkRight"), true);
+				this.setAnimation(this.getAnimationByKey("right"+this.moveState), true);
 			} else {
 				this.setLastMovingDirection(0);
 				this.setMoveSpeed(-this.getSpeed());
-				this.setAnimation(this.getAnimationByKey("walkLeft"), true);
+				this.setAnimation(this.getAnimationByKey("left"+this.moveState), true);
 			}
 		}
 	}
@@ -132,7 +154,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 0; i < 6; i++) {
 			anim.addFrame(sheet.getSprite(i, 0), animSpeed);
 		}
-		addAnimation("walkRight", anim);
+		addAnimation("rightWalk", anim);
 		
 		//Walk left
 		sheet = new SpriteSheet(path, width, height);
@@ -141,7 +163,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 5; i > -1; i--) {
 			anim.addFrame(sheet.getSprite(i, 2), animSpeed);
 		}
-		addAnimation("walkLeft", anim);
+		addAnimation("leftWalk", anim);
 		
 		//Attack right
 		sheet = new SpriteSheet(path, width, height);
@@ -150,7 +172,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 0; i < 5; i++) {
 			anim.addFrame(sheet.getSprite(i, 1), animSpeed);
 		}
-		addAnimation("attackRight", anim);
+		addAnimation("rightAttack", anim);
 		
 		//Attack left
 		sheet = new SpriteSheet(path, width, height);
@@ -159,7 +181,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 5; i > 0; i--) {
 			anim.addFrame(sheet.getSprite(i, 3), animSpeed);
 		}
-		addAnimation("attackLeft", anim);
+		addAnimation("leftAttack", anim);
 		
 		
 		//Walk right Headless
@@ -169,7 +191,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 0; i < 6; i++) {
 			anim.addFrame(sheet.getSprite(i, 4), animSpeed);
 		}
-		addAnimation("walkRightHeadless", anim);
+		addAnimation("rightWalkHeadless", anim);
 		
 		//Walk left Headless
 		sheet = new SpriteSheet(path, width, height);
@@ -178,7 +200,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 5; i > -1; i--) {
 			anim.addFrame(sheet.getSprite(i, 6), animSpeed);
 		}
-		addAnimation("walkLeftHeadless", anim);
+		addAnimation("leftWalkHeadless", anim);
 		
 		//Attack right Headless
 		sheet = new SpriteSheet(path, width, height);
@@ -187,7 +209,7 @@ public class Zombie extends CharacterEntity {
 		for(int i = 0; i < 5; i++) {
 			anim.addFrame(sheet.getSprite(i, 5), animSpeed);
 		}
-		addAnimation("attackRightHeadless", anim);
+		addAnimation("rightAttackHeadless", anim);
 		
 		//Attack left Headless
 		sheet = new SpriteSheet(path, width, height);
@@ -196,6 +218,6 @@ public class Zombie extends CharacterEntity {
 		for(int i = 5; i > 0; i--) {
 			anim.addFrame(sheet.getSprite(i, 7), animSpeed);
 		}
-		addAnimation("attackLeftHeadless", anim);
+		addAnimation("leftAttackHeadless", anim);
 	}
 }

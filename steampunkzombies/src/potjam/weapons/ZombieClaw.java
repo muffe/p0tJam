@@ -2,12 +2,13 @@ package potjam.weapons;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import potjam.entities.CharacterEntity;
 
 public class ZombieClaw extends Weapon {
-
-	public ZombieClaw(float x, float y, float width, float height, CharacterEntity e) {
+	public ZombieClaw(float x, float y, float width, float height, CharacterEntity e) throws SlickException {
 		super(x, y, width, height, e);
 		this.setReUseTime(1000);
 	}

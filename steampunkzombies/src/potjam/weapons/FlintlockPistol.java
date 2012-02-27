@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import potjam.entities.CharacterEntity;
 import potjam.entities.Player;
@@ -15,13 +17,16 @@ public class FlintlockPistol extends Weapon {
 	private ArrayList<Projectile> projectiles;
 	private float speed;
 	private float projectileSize;
+	private Sound gunShot;
 
-	public FlintlockPistol(float x, float y, float width, float height, CharacterEntity e) {
+	public FlintlockPistol(float x, float y, float width, float height, CharacterEntity e) throws SlickException {
 		super(x, y, width, height, e);
 		projectiles = new ArrayList<Projectile>();
-		speed = 1.0f;
-		projectileSize = 10;
-		this.setReUseTime(500.0f);
+		speed = 2.0f;
+		projectileSize = 5;
+		this.setReUseTime(1000.0f);
+		this.setDamage(50.0f);
+		gunShot = new Sound("ressources/sounds/FlintlockPistol_Shot.wav");
 	}
 
 	@Override
@@ -33,6 +38,7 @@ public class FlintlockPistol extends Weapon {
 			p.calculateSpeed(new Point(midX, midY), new Point(MouseInput.getMouseX(), MouseInput.getMouseY()));
 			this.projectiles.add(p);
 			
+			gunShot.play();
 			//reUseTimeCounter Reset
 			super.use(gc, delta);
 		}
