@@ -24,8 +24,8 @@ public class PotJamMain extends BasicGame {
 	 * Titel uebergen, initialisieren.
 	 * @param title
 	 */
-	public PotJamMain(String title) {
-		super(title);
+	public PotJamMain() {
+		super("Working Title");
 	}
 
 	//TODO: Bei Implementation der Map, ArrayList fuer Bloecke, Spieler und Zombies mit richtigen ersetzen!
@@ -38,7 +38,7 @@ public class PotJamMain extends BasicGame {
 		Camera.init();
 		MouseInput.init();
 		
-		this.player = new Player(100, 300, 46, 75);
+		this.player = new Player(100, 100, 46, 75);
 		this.zombies = new ArrayList<Zombie>();
 		
 		try {
@@ -50,7 +50,7 @@ public class PotJamMain extends BasicGame {
 		}
 		
 		blockList = new ArrayList<Block>();
-		blockList.add(new Block(0, 500, 1152, 500));
+		blockList.add(new Block(-1152, 500, 2304, 500));
 		blockList.add(new Block(550, 450, 50, 50));
 	}
 
@@ -93,7 +93,7 @@ public class PotJamMain extends BasicGame {
 	 * @throws SlickException
 	 */
 	public static void main(String[] args) throws SlickException {
-		PotJamMain game = new PotJamMain("Working Title");
+		PotJamMain game = new PotJamMain();
 		AppGameContainer app = new AppGameContainer(game, 1152, 648, false);
 		app.start();
 	}

@@ -45,11 +45,7 @@ public class Player extends CharacterEntity {
 		}
 		
 		this.fall(delta);
-		
-		if(hasMoved) {
-			Camera.moveCamera(this.getMoveSpeed()*delta, 0.0f);
-		}
-		Camera.moveCamera(0.0f, this.getFallSpeedCurrent()*delta);
+		Camera.centerCamera(gc.getWidth(), gc.getHeight(), this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
 	}
 	
 	public void draw(GameContainer gc, Graphics g) {
@@ -147,7 +143,7 @@ public class Player extends CharacterEntity {
 		addAnimation("walkLeft", anim);
 		
 		//Stand right
-		sheet = new SpriteSheet("ressources/Hero_Test.png", 46, 75);
+		sheet = new SpriteSheet("ressources/Hero.png", 46, 75);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
 		anim.addFrame(sheet.getSprite(0, 0), 200);

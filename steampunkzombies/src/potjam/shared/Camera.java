@@ -48,6 +48,12 @@ public class Camera {
 		float tempX = Math.abs(posX - windowWidth/2);
 		float tempY = Math.abs(posY - windowHeight/2);
 		
+		if(posX >= windowWidth/2)
+			tempX = -tempX;
+		
+		if(posY > windowHeight/2)
+			tempY = -tempY;
+		
 		shiftX = tempX;
 		shiftY = tempY;
 	}
