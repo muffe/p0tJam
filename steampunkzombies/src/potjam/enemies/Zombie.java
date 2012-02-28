@@ -41,16 +41,7 @@ public class Zombie extends CharacterEntity {
 		this.getActiveWeapon().update(gc, delta);
 		this.attackAI(gc, delta);
 		this.moveAI(delta);
-		
-		if(!collidedWithWorld(this.getMoveSpeed()*delta, 0) && !this.attacking) {
-			this.move(delta);
-		}
-		
 		this.fall(delta);
-		if(this.isDead())
-		{
-			PotJamMain.zombies.remove(this);
-		}
 		
 		if(this.getHitPoints() <= 50) {
 			this.moveState = "WalkHeadless";
@@ -59,6 +50,11 @@ public class Zombie extends CharacterEntity {
 				this.lostHead = true;
 				
 			}
+		}
+		
+		if(this.isDead())
+		{
+			PotJamMain.zombies.remove(this);
 		}
 	}
 	
@@ -111,7 +107,10 @@ public class Zombie extends CharacterEntity {
 
 
 	private void moveAI(int delta) {
-		if(this.endOfBlockReached(delta) || this.collidedWithWorld(this.getMoveSpeed(), 0)) {
+		if(!collidedWithWorld(this.getMoveSpeed()*delta, 0) && !this.endOfBlockReached(delta)) {
+			if(!this.attacking)
+				this.move(delta);
+		} else {
 			if(this.getLastMovingDirection() == 0) {
 				this.setLastMovingDirection(1);
 				this.setMoveSpeed(this.getSpeed());
