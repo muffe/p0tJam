@@ -6,6 +6,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
@@ -30,6 +31,7 @@ public class Zombie extends CharacterEntity {
 	public Zombie(float x, float y, float width, float height) throws SlickException {
 		super(x, y, width, height);
 		initAnimations();
+		
 		this.setSpeed(0.03f);
 		this.setActiveWeapon(new ZombieClaw(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight(), this));
 		this.attacking = false;
@@ -87,7 +89,7 @@ public class Zombie extends CharacterEntity {
 		
 		if(this.isDead()) {
 			if(this.deathTimeCounter >= this.deathTime) {
-				PotJamMain.zombies.remove(this);
+				//PotJamMain.zombies.remove(this);
 			} else {
 				if(this.deathTimeCounter == 0.0f) {
 					if(this.getLastMovingDirection() == 0) {
@@ -96,6 +98,7 @@ public class Zombie extends CharacterEntity {
 						this.setAnimation(this.getAnimationByKey("rightDeathHeadless"), false);
 					}
 					
+					this.setCollidable(false);
 					this.getAnimation().setLooping(false);
 					this.getAnimation().start();
 				}
@@ -188,11 +191,10 @@ public class Zombie extends CharacterEntity {
 		int height = 73;
 		int widthDeath = 80;
 		int heightDeath = 73;
-		int animSpeed = 250;
-		int animSpeedDeath = 200;
+		int animSpeed = 200;
+		int animSpeedDeath = 125;
 		String path = "ressources/ZombieSheet.png";
 		String pathHeadless = "ressources/ZombieHeadlessSheet.png";
-		String pathHeadlessDeath = "ressources/ZombieHeadlessDeathSheet.png";
 		
 		//Walk right
 		SpriteSheet sheet = new SpriteSheet(path, width, height);
@@ -205,11 +207,10 @@ public class Zombie extends CharacterEntity {
 		
 		//Walk left
 		sheet = new SpriteSheet(path, width, height);
-		sheet = new SpriteSheet(sheet.getFlippedCopy(true, false), width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		for(int i = 11; i > 5; i--) {
-			anim.addFrame(sheet.getSprite(i, 0), animSpeed);
+		for(int i = 0; i < 6; i++) {
+			anim.addFrame(sheet.getSprite(i, 0).getFlippedCopy(true, false), animSpeed);
 		}
 		addAnimation("leftWalk", anim);
 		
@@ -224,11 +225,10 @@ public class Zombie extends CharacterEntity {
 		
 		//Attack left
 		sheet = new SpriteSheet(path, width, height);
-		sheet = new SpriteSheet(sheet.getFlippedCopy(true, false), width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		for(int i = 11; i > 6; i--) {
-			anim.addFrame(sheet.getSprite(i, 1), animSpeed);
+		for(int i = 0; i < 5; i++) {
+			anim.addFrame(sheet.getSprite(i, 1).getFlippedCopy(true, false), animSpeed);
 		}
 		addAnimation("leftAttack", anim);
 		
@@ -244,11 +244,10 @@ public class Zombie extends CharacterEntity {
 		
 		//Walk left Headless
 		sheet = new SpriteSheet(pathHeadless, width, height);
-		sheet = new SpriteSheet(sheet.getFlippedCopy(true, false), width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		for(int i = 11; i > 5; i--) {
-			anim.addFrame(sheet.getSprite(i, 0), animSpeed);
+		for(int i = 0; i < 6; i++) {
+			anim.addFrame(sheet.getSprite(i, 0).getFlippedCopy(true, false), animSpeed);
 		}
 		addAnimation("leftWalkHeadless", anim);
 		
@@ -263,30 +262,28 @@ public class Zombie extends CharacterEntity {
 		
 		//Attack left Headless
 		sheet = new SpriteSheet(pathHeadless, width, height);
-		sheet = new SpriteSheet(sheet.getFlippedCopy(true, false), width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		for(int i = 11; i > 6; i--) {
-			anim.addFrame(sheet.getSprite(i, 1), animSpeed);
+		for(int i = 0; i < 5; i++) {
+			anim.addFrame(sheet.getSprite(i, 1).getFlippedCopy(true, false), animSpeed);
 		}
 		addAnimation("leftAttackHeadless", anim);
 		
 		//Die right Headless
-		sheet = new SpriteSheet(pathHeadlessDeath, widthDeath, heightDeath);
+		sheet = new SpriteSheet(pathHeadless, widthDeath, heightDeath);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
 		for(int i = 0; i < 7; i++) {
-			anim.addFrame(sheet.getSprite(i, 0), animSpeedDeath);
+			anim.addFrame(sheet.getSprite(i, 2), animSpeedDeath);
 		}
 		addAnimation("rightDeathHeadless", anim);
 		
 		//Die left Headless
-		sheet = new SpriteSheet(pathHeadlessDeath, widthDeath, heightDeath);
-		sheet = new SpriteSheet(sheet.getFlippedCopy(true, false), widthDeath, heightDeath);
+		sheet = new SpriteSheet(pathHeadless, widthDeath, heightDeath);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		for(int i = 6; i > -1; i--) {
-			anim.addFrame(sheet.getSprite(i, 0), animSpeedDeath);
+		for(int i = 0; i < 7; i++) {
+			anim.addFrame(sheet.getSprite(i, 2).getFlippedCopy(true, false), animSpeedDeath);
 		}
 		addAnimation("leftDeathHeadless", anim);
 	}

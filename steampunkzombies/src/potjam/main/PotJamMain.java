@@ -8,6 +8,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import potjam.entities.Gib;
@@ -66,6 +67,16 @@ public class PotJamMain extends BasicGame {
 		for(int i = 0; i < zombies.size(); i++) {
 			try {
 				zombies.get(i).update(gc, delta);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(gc.getInput().isKeyPressed(Input.KEY_P)) {
+			try {
+				this.zombies.add(new Zombie(300, 300, 48, 73));
+				this.zombies.add(new Zombie(700, 200, 48, 73));
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

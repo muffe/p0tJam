@@ -6,7 +6,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 
 public abstract class Entity extends Polygon {
-	
 	/**
 	 * Erzeugt rechteckiges Polygon.
 	 * @param x

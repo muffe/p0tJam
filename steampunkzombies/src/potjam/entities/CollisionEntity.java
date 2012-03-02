@@ -3,9 +3,11 @@ package potjam.entities;
 import potjam.main.PotJamMain;
 
 public abstract class CollisionEntity extends Entity {
-
+	private boolean collidable;
+	
 	public CollisionEntity(float x, float y, float width, float height) {
 		super(x, y, width, height);
+		collidable = true;
 	}
 	
 	/**
@@ -51,9 +53,11 @@ public abstract class CollisionEntity extends Entity {
 		this.setY(this.getY() + interpY);
 		
 		for(int i = 0; i < PotJamMain.zombies.size(); i++) {
-			if(this.intersects(PotJamMain.zombies.get(i)) || this.contains(PotJamMain.zombies.get(i)) || PotJamMain.zombies.get(i).contains(this)) {
-				collidedIndex = i;
-				break;
+			if(PotJamMain.zombies.get(i).isCollidable()) {
+				if(this.intersects(PotJamMain.zombies.get(i)) || this.contains(PotJamMain.zombies.get(i)) || PotJamMain.zombies.get(i).contains(this)) {
+					collidedIndex = i;
+					break;
+				}
 			}
 		}
 		
@@ -86,6 +90,14 @@ public abstract class CollisionEntity extends Entity {
 		this.setY(this.getY() - interpY);
 		
 		return collided;
+	}
+
+	public boolean isCollidable() {
+		return collidable;
+	}
+
+	public void setCollidable(boolean collidable) {
+		this.collidable = collidable;
 	}
 
 }
