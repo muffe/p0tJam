@@ -1,4 +1,4 @@
-package potjam.weapons;
+package potjam.entities.weapons;
 
 import org.newdawn.slick.GameContainer;
 

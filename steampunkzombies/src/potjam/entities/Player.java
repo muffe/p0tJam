@@ -7,10 +7,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+import potjam.entities.weapons.FlintlockPistol;
+import potjam.entities.weapons.Weapon;
 import potjam.shared.Camera;
 import potjam.shared.MouseInput;
-import potjam.weapons.FlintlockPistol;
-import potjam.weapons.Weapon;
 
 public class Player extends CharacterEntity {
 	/**

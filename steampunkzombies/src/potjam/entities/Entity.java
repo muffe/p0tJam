@@ -2,6 +2,7 @@ package potjam.entities;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 
 public abstract class Entity extends Polygon {
@@ -25,7 +26,7 @@ public abstract class Entity extends Polygon {
 	 * @param gc
 	 * @param delta
 	 */
-	public abstract void update(GameContainer gc, int delta);
+	public abstract void update(GameContainer gc, int delta) throws SlickException;
 	
 	/**
 	 * Rendering hier.

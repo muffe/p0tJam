@@ -7,10 +7,12 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import potjam.enemies.Zombie;
+import potjam.entities.Gib;
 import potjam.entities.Player;
+import potjam.entities.enemies.Zombie;
 import potjam.map.Block;
 import potjam.shared.Camera;
 import potjam.shared.MouseInput;
@@ -62,7 +64,12 @@ public class PotJamMain extends BasicGame {
 		MouseInput.update(gc);
 		this.player.update(gc, delta);
 		for(int i = 0; i < zombies.size(); i++) {
-			zombies.get(i).update(gc, delta);
+			try {
+				zombies.get(i).update(gc, delta);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

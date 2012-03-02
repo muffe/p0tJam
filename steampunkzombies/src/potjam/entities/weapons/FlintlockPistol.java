@@ -1,4 +1,4 @@
-package potjam.weapons;
+package potjam.entities.weapons;
 
 import java.util.ArrayList;
 

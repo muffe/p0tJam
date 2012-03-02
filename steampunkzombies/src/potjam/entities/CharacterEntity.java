@@ -7,7 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import potjam.weapons.Weapon;
+import potjam.entities.weapons.Weapon;
 
 public abstract class CharacterEntity extends CollisionEntity {
 	private HashMap<String, Animation> animationMap;
