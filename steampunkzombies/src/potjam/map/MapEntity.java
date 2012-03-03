@@ -63,6 +63,10 @@ public abstract class MapEntity extends Entity {
 	public void setTexture(String path) throws SlickException {
 		this.texture = new Image(path);
 	}
+	
+	public void setTexture(Image image) {
+		this.texture = image;
+	}
 
 	public boolean isRepeat() {
 		return repeat;

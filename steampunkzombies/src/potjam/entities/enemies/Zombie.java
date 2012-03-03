@@ -15,6 +15,7 @@ import potjam.entities.CharacterEntity;
 import potjam.entities.Gib;
 import potjam.entities.weapons.ZombieClaw;
 import potjam.main.PotJamMain;
+import potjam.map.World;
 
 public class Zombie extends CharacterEntity {
 	private boolean attacking;
@@ -74,9 +75,9 @@ public class Zombie extends CharacterEntity {
 			if(!this.lostHead) {
 				this.lostHead = true;
 				this.gibs.add(new Gib(this.getMinX(), this.getMinY(), 24.0f, 24.0f,
-						new SpriteSheet("ressources/Zombie_Gibs.png", 24, 24).getSprite(0, 0), PotJamMain.player.getMinX()));
+						new SpriteSheet("ressources/Zombie_Gibs.png", 24, 24).getSprite(0, 0),World.getPlayer().getMinX()));
 				this.gibs.add(new Gib(this.getMinX(), this.getMinY(), 24.0f, 24.0f,
-						new SpriteSheet("ressources/Zombie_Gibs.png", 24, 24).getSprite(1, 0), PotJamMain.player.getMinX()));
+						new SpriteSheet("ressources/Zombie_Gibs.png", 24, 24).getSprite(1, 0), World.getPlayer().getMinX()));
 				sound.play();
 			}
 			
@@ -113,11 +114,11 @@ public class Zombie extends CharacterEntity {
 		boolean facingPlayer = false;
 		
 		if(this.getLastMovingDirection() == 0) {
-			if(PotJamMain.player.getMinX() < this.getMinX()) { //TODO: player bei Einbau der Map mit richtigem player Objekt ersetzen
+			if(World.getPlayer().getMinX() < this.getMinX()) {
 				facingPlayer = true;
 			}
 		} else {
-			if(PotJamMain.player.getMinX() > this.getMinX()) {
+			if(World.getPlayer().getMinX() > this.getMinX()) {
 				facingPlayer = true;
 			}
 		}

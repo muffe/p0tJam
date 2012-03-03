@@ -1,6 +1,7 @@
 package potjam.entities;
 
 import potjam.main.PotJamMain;
+import potjam.map.World;
 
 public abstract class CollisionEntity extends Entity {
 	private boolean collidable;
@@ -13,7 +14,6 @@ public abstract class CollisionEntity extends Entity {
 	/**
 	 * Kollision mit allen MapEntity Objekten der ArrayList.
 	 * 
-	 * TODO: Bei Implementation der Map mit richtiger ArrayList ersetzen!
 	 * 
 	 * @param interpX
 	 * @param interpY
@@ -24,8 +24,8 @@ public abstract class CollisionEntity extends Entity {
 		this.setX(this.getX() + interpX);
 		this.setY(this.getY() + interpY);
 		
-		for(int i = 0; i < PotJamMain.blockList.size(); i++) {
-			if(this.intersects(PotJamMain.blockList.get(i)) || this.contains(PotJamMain.blockList.get(i)) || PotJamMain.blockList.get(i).contains(this)) {
+		for(int i = 0; i < World.getTileListSize(); i++) {
+			if(this.intersects(World.getTileByIndex(i)) || this.contains(World.getTileByIndex(i)) || World.getTileByIndex(i).contains(this)) {
 				collided = true;
 				break;
 			}
@@ -52,9 +52,9 @@ public abstract class CollisionEntity extends Entity {
 		this.setX(this.getX() + interpX);
 		this.setY(this.getY() + interpY);
 		
-		for(int i = 0; i < PotJamMain.zombies.size(); i++) {
-			if(PotJamMain.zombies.get(i).isCollidable()) {
-				if(this.intersects(PotJamMain.zombies.get(i)) || this.contains(PotJamMain.zombies.get(i)) || PotJamMain.zombies.get(i).contains(this)) {
+		for(int i = 0; i < World.getZombieListSize(); i++) {
+			if(World.getZombieByIndex(i).isCollidable()) {
+				if(this.intersects(World.getZombieByIndex(i)) || this.contains(World.getZombieByIndex(i)) || World.getZombieByIndex(i).contains(this)) {
 					collidedIndex = i;
 					break;
 				}
@@ -82,7 +82,7 @@ public abstract class CollisionEntity extends Entity {
 		this.setX(this.getX() + interpX);
 		this.setY(this.getY() + interpY);
 		
-		if(this.intersects(PotJamMain.player) || this.contains(PotJamMain.player) || PotJamMain.player.contains(this)) {
+		if(this.intersects(World.getPlayer()) || this.contains(World.getPlayer()) || World.getPlayer().contains(this)) {
 			collided = true;
 		}
 		

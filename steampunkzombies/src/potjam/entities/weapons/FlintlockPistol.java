@@ -10,6 +10,7 @@ import org.newdawn.slick.Sound;
 import potjam.entities.CharacterEntity;
 import potjam.entities.Player;
 import potjam.main.PotJamMain;
+import potjam.map.World;
 import potjam.shared.MouseInput;
 import potjam.shared.Point;
 
@@ -32,8 +33,8 @@ public class FlintlockPistol extends Weapon {
 	@Override
 	public void use(GameContainer gc, int delta) {
 		if(this.getReUseTimeCounter() >= this.getReUseTime()) {
-			float midX = PotJamMain.player.getMinX() +PotJamMain.player.getWidth()/2 - projectileSize/2;
-			float midY = PotJamMain.player.getMinY() + PotJamMain.player.getHeight()/2 - projectileSize/2;
+			float midX = World.getPlayer().getMinX() + World.getPlayer().getWidth()/2 - projectileSize/2;
+			float midY = World.getPlayer().getMinY() + World.getPlayer().getHeight()/2 - projectileSize/2;
 			Projectile p = new Projectile(midX, midY, projectileSize, projectileSize, speed, this);
 			p.calculateSpeed(new Point(midX, midY), new Point(MouseInput.getMouseX(), MouseInput.getMouseY()));
 			this.projectiles.add(p);

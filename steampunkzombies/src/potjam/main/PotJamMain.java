@@ -15,14 +15,11 @@ import potjam.entities.Gib;
 import potjam.entities.Player;
 import potjam.entities.enemies.Zombie;
 import potjam.map.Block;
+import potjam.map.World;
 import potjam.shared.Camera;
 import potjam.shared.MouseInput;
 
 public class PotJamMain extends BasicGame {
-	public static Player player;
-	public static ArrayList<Block> blockList;
-	public static ArrayList<Zombie> zombies;
-	
 	/**
 	 * Titel uebergen, initialisieren.
 	 * @param title
@@ -40,21 +37,7 @@ public class PotJamMain extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 		Camera.init();
 		MouseInput.init();
-		
-		this.player = new Player(100, 100, 46, 75);
-		this.zombies = new ArrayList<Zombie>();
-		
-		try {
-			this.zombies.add(new Zombie(300, 300, 48, 73));
-			this.zombies.add(new Zombie(700, 200, 48, 73));
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		blockList = new ArrayList<Block>();
-		blockList.add(new Block(-1152, 500, 2304, 500));
-		blockList.add(new Block(550, 450, 50, 50));
+		World.init();
 	}
 
 	/**
@@ -63,24 +46,12 @@ public class PotJamMain extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int delta) {
 		MouseInput.update(gc);
-		this.player.update(gc, delta);
-		for(int i = 0; i < zombies.size(); i++) {
-			try {
-				zombies.get(i).update(gc, delta);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		
-		if(gc.getInput().isKeyPressed(Input.KEY_P)) {
-			try {
-				this.zombies.add(new Zombie(300, 300, 48, 73));
-				this.zombies.add(new Zombie(700, 200, 48, 73));
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			World.update(gc, delta);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -94,15 +65,7 @@ public class PotJamMain extends BasicGame {
 		//Camera - Muss als erstes gezeichnet werden
 		Camera.draw(g);
 		
-		for(int i = 0; i < zombies.size(); i++) {
-			zombies.get(i).draw(gc, g);
-		}
-		
-		this.player.draw(gc, g);
-		
-		for(int i = 0; i < blockList.size(); i++) {
-			blockList.get(i).draw(gc, g);
-		}
+		World.draw(gc, g);
 	}
 	
 	/**
