@@ -21,7 +21,7 @@ public class World {
 	
 	
 	public static void init() throws SlickException { //Enthaelt spaeter Pfad zu .xml Map Datei
-		player = new Player(100, 100, 46, 75); //x - y - breite - hoehe                        || HIER SPIELER POSITIONIEREN
+		player = new Player(100, 200, 46, 75); //x - y - breite - hoehe                        || HIER SPIELER POSITIONIEREN
 		
 		zombies = new ArrayList<Zombie>();
 		backgroundTiles = new ArrayList<Block>();
@@ -45,7 +45,23 @@ public class World {
 	 * 
 	 */
 	private static void loadTextures() throws SlickException {
-		
+		// Void
+		textures.put("Void", new Image("ressources/map/Void.png"));
+		// Earth & Grass
+		textures.put("EarthBack", new Image("ressources/map/EarthBack.png"));
+		textures.put("GrassOverlay", new Image("ressources/map/GrassOverlay.png"));
+		textures.put("EarthTopGrass", new Image("ressources/map/EarthTopGrass.png"));
+		textures.put("EarthBack", new Image("ressources/map/EarthBack.png"));
+		textures.put("EarthPlatformCornerLeftOverlay", new Image("ressources/map/EarthPlatformCornerLeftOverlay.png"));
+		textures.put("EarthPlatformCornerRightOverlay", new Image("ressources/map/EarthPlatformCornerRightOverlay.png"));
+		textures.put("EarthPlatformSingle", new Image("ressources/map/EarthPlatformSingle.png"));
+		textures.put("EarthPlatformSingleCornerLeft", new Image("ressources/map/EarthPlatformSingleCornerLeft.png"));
+		textures.put("EarthPlatformSingleCornerRight", new Image("ressources/map/EarthPlatformSingleCornerRight.png"));
+		textures.put("EarthShadowOverlay", new Image("ressources/map/EarthShadowOverlay.png"));
+		textures.put("EarthTopBrick", new Image("ressources/map/EarthTopBrick.png"));
+		// Brick
+		textures.put("Brick", new Image("ressources/map/Brick.png"));
+		textures.put("BrickBack", new Image("ressources/map/BrickBack.png"));
 	}
 	
 	/**
@@ -68,26 +84,56 @@ public class World {
 	 */
 	private static void loadMap() throws SlickException {
 		//Zombies - Breite und Hoehe bitte immer gleich lassen
-		int zombieWidth = 48;
+		/*int zombieWidth = 48;
 		int zombieHeight = 73;
 		
 		Zombie z = new Zombie(300, 300, zombieWidth, zombieHeight);
 		zombies.add(z);
 		
 		z = new Zombie(700, 200, zombieWidth, zombieHeight);
-		zombies.add(z);
-		
-		
+		zombies.add(z);*/
+
+
 		//Bloecke
-		Block b = new Block(-1152, 500, 2304, 500);
+		Block b = new Block(-1000,-400, 1000, 1000);
+		b.setTexture(textures.get("Void"));
 		tiles.add(b);
+		createStandardEarth(0,276, 1000, 500);
+		createEarthSinglePlatform(400, 162, 100);
 		
-		b = new Block(550, 450, 50, 50);
+	}
+	// Erzeugt einen Vordergrundbereich
+	private static void createForeground(float x, float y, float width, float height, String texture) throws SlickException {
+		Block b = new Block(x, y, width, height);
+		if (texture != "")
+			b.setTexture(textures.get(texture));
 		tiles.add(b);
-		
-		b = new Block(550, 150, 50, 50);
-		tiles.add(b);
-		
+	}
+	// Erzeugt einen Hintergrundbereich
+		private static void createBackground(float x, float y, float width, float height, String texture) throws SlickException {
+			Block b = new Block(x, y, width, height);
+			if (texture != "")
+				b.setTexture(textures.get(texture));
+			backgroundTiles.add(b);
+		}
+	// Setzt 38 Pixel höher als y an, um das Gras oben drauf zu zeichnen
+	private static void createStandardEarth(float x, float y, float width, float height) throws SlickException {
+		createBackground(x, y-38, width, 38, "GrassOverlay");
+		createForeground(x, y, width, 38, "EarthTopGrass");
+		createForeground(x, y+38, width, height-38, "");
+	}
+	// Einzeilige Erdplattform mit Breite width
+	// Macht in alle Richtungen Extras (46 links/rechts, 38 oben/unten)
+	// Minimumbreite 2*46
+	private static void createEarthSinglePlatform(float x, float y, float width) throws SlickException {
+		if (width > 92)
+			createForeground(x+46, y, width-92, 38, "EarthPlatformSingle");
+		createForeground(x, y, 46, 38, "EarthPlatformSingleCornerLeft");
+		createForeground(x+width-46, y, 46, 38, "EarthPlatformSingleCornerRight");
+		createBackground(x, y-38, width, 38, "GrassOverlay");
+		createBackground(x-46, y, 46, 38, "EarthPlatformCornerLeftOverlay");
+		createBackground(x+width, y, 46, 38, "EarthPlatformCornerRightOverlay");
+		createBackground(x, y+38, width, 38, "EarthShadowOverlay");
 	}
 
 	public static void update(GameContainer gc, int delta) throws SlickException {

@@ -24,7 +24,7 @@ public abstract class MapEntity extends Entity {
 	 */
 	public MapEntity(float x, float y, float width, float height) throws SlickException {
 		super(x, y, width, height);
-		texture = new Image("ressources/MapFront.png");
+		texture = new Image("ressources/map/Earth.png");
 		repeat = true;
 	}
 	

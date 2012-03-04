@@ -49,7 +49,7 @@ public abstract class CharacterEntity extends CollisionEntity {
 		this.fallSpeedMax = 1.0f;
 		this.fallSpeedCurrent = 0.0f;
 		this.fallSpeedIncrement = 0.002f;
-		this.jumpHeight = 0.7f;
+		this.jumpHeight = 0.9f;
 		this.jumping = false;
 		this.hitPoints = 100;
 	}
