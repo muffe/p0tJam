@@ -3,11 +3,13 @@ package potjam.entities;
 import java.util.HashMap;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import potjam.entities.weapons.Weapon;
+import potjam.shared.Camera;
 
 public abstract class CharacterEntity extends CollisionEntity {
 	private HashMap<String, Animation> animationMap;
@@ -23,6 +25,10 @@ public abstract class CharacterEntity extends CollisionEntity {
 	 */
 	private int lastMovingDirection;
 	private float hitPoints;
+	private float hitPointsMax;
+	private float healthBarWidth;
+	private float healthBarWidthMax;
+	private float healthBarHeight;
 	private float speed;
 	private float moveSpeed;
 	private float fallSpeedMax;
@@ -31,6 +37,7 @@ public abstract class CharacterEntity extends CollisionEntity {
 	private float jumpHeight;
 	private boolean jumping;
 	private boolean dead;
+	private boolean drawStandardHealth;
 	
 	/**
 	 * Maﬂe und Position.
@@ -51,7 +58,10 @@ public abstract class CharacterEntity extends CollisionEntity {
 		this.fallSpeedIncrement = 0.002f;
 		this.jumpHeight = 0.9f;
 		this.jumping = false;
-		this.hitPoints = 100;
+		this.hitPoints = this.hitPointsMax = 100;
+		this.healthBarWidth = this.healthBarWidthMax = 50;
+		this.healthBarHeight = 5;
+		this.drawStandardHealth = true;
 	}
 	
 	/**
@@ -61,11 +71,19 @@ public abstract class CharacterEntity extends CollisionEntity {
 		if(this.animation != null) {
 			g.drawAnimation(this.animation, this.getMinX(), this.getMinY());
 			
+			if(this.drawStandardHealth)
+				this.drawHealth(gc, g);
+			
 			//Debug
 			//g.draw(this);
 		} else {
 			g.draw(this);
 		}
+	}
+	
+	private void drawHealth(GameContainer gc, Graphics g) {
+		g.setColor(Color.red);
+		g.fillRect(this.getMinX(), this.getMinY() - 10f, this.getHealthBarWidth(), this.getHealthBarHeight());
 	}
 	
 	/**
@@ -116,8 +134,10 @@ public abstract class CharacterEntity extends CollisionEntity {
 		{
 			this.setDead(true);
 		}
+		
+		this.healthBarWidth = this.healthBarWidthMax * (this.hitPoints / this.hitPointsMax);
 	}
-	
+
 	/**
 	 * Animationen initialisieren.
 	 * @throws SlickException
@@ -230,5 +250,45 @@ public abstract class CharacterEntity extends CollisionEntity {
 
 	public void setDead(boolean dead) {
 		this.dead = dead;
+	}
+
+	public float getHealthBarWidth() {
+		return healthBarWidth;
+	}
+
+	public void setHealthBarWidth(float healthBarWidth) {
+		this.healthBarWidth = healthBarWidth;
+	}
+
+	public float getHealthBarHeight() {
+		return healthBarHeight;
+	}
+
+	public void setHealthBarHeight(float healthBarHeight) {
+		this.healthBarHeight = healthBarHeight;
+	}
+
+	public float getHitPointsMax() {
+		return hitPointsMax;
+	}
+
+	public void setHitPointsMax(float hitPointsMax) {
+		this.hitPointsMax = hitPointsMax;
+	}
+
+	public boolean isDrawStandardHealth() {
+		return drawStandardHealth;
+	}
+
+	public void setDrawStandardHealth(boolean drawStandardHealth) {
+		this.drawStandardHealth = drawStandardHealth;
+	}
+
+	public float getHealthBarWidthMax() {
+		return healthBarWidthMax;
+	}
+
+	public void setHealthBarWidthMax(float healthBarWidthMax) {
+		this.healthBarWidthMax = healthBarWidthMax;
 	}
 }
