@@ -62,6 +62,8 @@ public class World {
 		// Brick
 		textures.put("Brick", new Image("ressources/map/Brick.png"));
 		textures.put("BrickBack", new Image("ressources/map/BrickBack.png"));
+		// Rock
+		textures.put("Rock", new Image("ressources/map/Rock.png"));
 	}
 	
 	/**
@@ -95,11 +97,18 @@ public class World {
 
 
 		//Bloecke
-		Block b = new Block(-1000,-400, 1000, 1000);
-		b.setTexture(textures.get("Void"));
-		tiles.add(b);
-		createStandardEarth(0,276, 1000, 500);
-		createEarthSinglePlatform(400, 162, 100);
+		createForeground(-1000,-400, 1000,1000, "Void");
+		createStandardEarth(0,276, 1000,500);
+		createEarthSinglePlatform(400,100, 100, false);
+		createEarthSinglePlatform(700,-80, 150, false);
+		createForeground(1000,0, 150,276, "Rock");
+		createForeground(1000,276, 150,500, "");
+		createStandardEarth(1150,276, 150,500);
+		createStandardEarth(1300,314, 150,462);
+		createStandardEarth(1450,352, 150,424);
+		createStandardEarth(1600,390, 500,376);
+		createBackground(1300,0, 150,314, "EarthBack");
+		createBackground(1450,0, 150,276, "EarthBack");
 		
 	}
 	// Erzeugt einen Vordergrundbereich
@@ -125,7 +134,7 @@ public class World {
 	// Einzeilige Erdplattform mit Breite width
 	// Macht in alle Richtungen Extras (46 links/rechts, 38 oben/unten)
 	// Minimumbreite 2*46
-	private static void createEarthSinglePlatform(float x, float y, float width) throws SlickException {
+	private static void createEarthSinglePlatform(float x, float y, float width, boolean shadow) throws SlickException {
 		if (width > 92)
 			createForeground(x+46, y, width-92, 38, "EarthPlatformSingle");
 		createForeground(x, y, 46, 38, "EarthPlatformSingleCornerLeft");
@@ -133,7 +142,8 @@ public class World {
 		createBackground(x, y-38, width, 38, "GrassOverlay");
 		createBackground(x-46, y, 46, 38, "EarthPlatformCornerLeftOverlay");
 		createBackground(x+width, y, 46, 38, "EarthPlatformCornerRightOverlay");
-		createBackground(x, y+38, width, 38, "EarthShadowOverlay");
+		if (shadow)
+			createBackground(x, y+38, width, 38, "EarthShadowOverlay");
 	}
 
 	public static void update(GameContainer gc, int delta) throws SlickException {
