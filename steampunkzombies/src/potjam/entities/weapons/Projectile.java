@@ -1,5 +1,6 @@
 package potjam.entities.weapons;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -33,6 +34,7 @@ public class Projectile extends CollisionEntity {
 
 	@Override
 	public void draw(GameContainer gc, Graphics g) {
+		g.setColor(Color.white);
 		g.fill(this);
 	}
 	

@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import potjam.entities.CharacterEntity;
+import potjam.map.World;
 
 public class ZombieClaw extends Weapon {
 	public ZombieClaw(float x, float y, float width, float height, CharacterEntity e) throws SlickException {
@@ -20,7 +21,7 @@ public class ZombieClaw extends Weapon {
 			interpX = -interpX;
 		
 		if(this.collidedWithPlayer(interpX, 0)) {
-			System.out.println("Rawr");
+			World.getPlayer().hurt(this.getDamage());
 		}
 		//reUseTimeCounter Reset
 		super.use(gc, delta);

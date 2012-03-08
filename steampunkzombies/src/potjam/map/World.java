@@ -89,7 +89,7 @@ public class World {
 		/*int zombieWidth = 48;
 		int zombieHeight = 73;
 		
-		Zombie z = new Zombie(300, 300, zombieWidth, zombieHeight);
+		Zombie z = new Zombie(300, 100, zombieWidth, zombieHeight);
 		zombies.add(z);
 		
 		z = new Zombie(700, 200, zombieWidth, zombieHeight);
@@ -171,14 +171,15 @@ public class World {
 			backgroundTiles.get(i).draw(gc, g);
 		}
 		
-		for(int i = 0; i < tiles.size(); i++) {
-			tiles.get(i).draw(gc, g);
-		}
-		
 		for(int i = 0; i < zombies.size(); i++) {
 			zombies.get(i).draw(gc, g);
 		}
 		
+		
+		for(int i = 0; i < tiles.size(); i++) {
+			tiles.get(i).draw(gc, g);
+		}
+
 		player.draw(gc, g);
 		
 		for(int i = 0; i < foregroundTiles.size(); i++) {

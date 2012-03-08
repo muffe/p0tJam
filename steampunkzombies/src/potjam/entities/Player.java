@@ -1,6 +1,7 @@
 package potjam.entities;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -23,6 +24,10 @@ public class Player extends CharacterEntity {
 	 */
 	public Player(float x, float y, float width, float height) throws SlickException {
 		super(x, y, width, height);
+		this.setDrawStandardHealth(false);
+		this.setHealthBarWidth(100f);
+		this.setHealthBarWidthMax(100f);
+		this.setHealthBarHeight(10f);
 		initAnimations();
 		setAnimation(getAnimationByKey("standRight"), true);
 		Camera.centerCamera(1152, 648, this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
@@ -46,11 +51,31 @@ public class Player extends CharacterEntity {
 		
 		this.fall(delta);
 		Camera.centerCamera(gc.getWidth(), gc.getHeight(), this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
+		
+		this.checkDeath();
 	}
-	
+
 	public void draw(GameContainer gc, Graphics g) {
 		super.draw(gc, g);
 		this.getActiveWeapon().draw(gc, g);
+		this.drawHealth(gc, g);
+	}
+	
+	private void checkDeath() {
+		if(this.isDead()) {
+			this.setX(0);
+			this.setY(0);
+			this.setHitPoints(this.getHitPointsMax());
+			this.setDead(false);
+		}
+	}
+	
+	private void drawHealth(GameContainer gc, Graphics g) {
+		g.setColor(Color.white);
+		g.drawString("Health: ", 15f - Camera.getShiftX(), 50f - Camera.getShiftY());
+		
+		g.setColor(Color.red);
+		g.fillRect(90f - Camera.getShiftX(), 50f + this.getHealthBarHeight()/2f - Camera.getShiftY(), this.getHealthBarWidth(), this.getHealthBarHeight());
 	}
 
 	/**
