@@ -157,7 +157,7 @@ public class World {
 	// Macht in alle Richtungen Extras (46 links/rechts, 4 oben, 12 unten)
 	private static void createEarthPlatform(float x, float y, float width, float height, boolean shadow) throws SlickException {
 		createForeground(x, y, width, height, "");
-		createOverlay(x, y-4, width, 14, "GrassOverlay");
+		createOverlay(x, y-4, width, 15, "GrassOverlay");
 		createOverlay(x-4, y, 15, height, "GrassOverlayLeft");
 		createOverlay(x+width-12, y, 15, height, "GrassOverlayRight");
 		if (shadow)

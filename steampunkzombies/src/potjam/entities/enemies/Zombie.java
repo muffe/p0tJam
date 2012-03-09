@@ -47,6 +47,7 @@ public class Zombie extends CharacterEntity {
 		this.deathTime = 3000.0f;
 		this.deathTimeCounter = 0.0f;
 		this.detectionRange = 200f;
+		this.setMoveSpeed(-this.getSpeed());
 	}
 	
 
@@ -169,8 +170,9 @@ public class Zombie extends CharacterEntity {
 		}
 		
 		if(!collidedWithWorld(this.getMoveSpeed()*delta, 0) && !this.endOfBlockReached(delta)) {
-			if(!this.attacking)
+			if(!this.attacking) {
 				this.move(delta);
+			}
 		} else {
 			if(this.getLastMovingDirection() == 0) {
 				this.setLastMovingDirection(1);
