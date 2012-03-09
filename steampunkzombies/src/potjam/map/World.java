@@ -64,10 +64,12 @@ public class World {
 		textures.put("EarthShadowOverlay", new Image("ressources/map/EarthShadowOverlay.png"));
 		textures.put("EarthTopBrick", new Image("ressources/map/EarthTopBrick.png"));
 		// Brick
-		textures.put("Brick", new Image("ressources/map/Brick.png"));
-		textures.put("BrickBack", new Image("ressources/map/BrickBack.png"));
+		textures.put("Brick", new Image("ressources/map/Brick.png")); // unused
+		textures.put("BrickBack", new Image("ressources/map/BrickBack.png")); // unused
 		// Rock
 		textures.put("Rock", new Image("ressources/map/Rock.png"));
+		// Cave
+		textures.put("Cave", new Image("ressources/map/Cave.png"));
 	}
 	
 	/**
@@ -90,8 +92,6 @@ public class World {
 	 */
 	private static void loadMap() throws SlickException {
 		//Zombies - Breite und Hoehe bitte immer gleich lassen
-		int zombieWidth = 48;
-		int zombieHeight = 73;
 
 		//Bloecke
 		float map_x = -1000; // dient dazu, mir Berechnungen beim Erstellen von Blöcken von links nach rechts zu ersparen
@@ -104,19 +104,22 @@ public class World {
 		createEarthPlatform(700,-80, 150, 32, false);
 		map_x += 1024;
 		createZombie(map_x-60, 190);
-		zombies.add(z);
+		createZombie(map_x-100, 190);
+		createZombie(map_x-125, 190);
+		createZombie(map_x-150, 190);
 		
 		
 		createForeground(map_x,0, 128,276, "Rock");
 		createForeground(map_x,276, 128,512, "");
 		map_x += 128;
 		
+		createEarthPlatform(map_x,100, 32,32, false);
 		createStandardEarth(map_x,276, 128,512);
 		map_x += 128;
 		
 		createStandardEarth(map_x,308, 128,470);
 		createBackground(map_x,0, 128,308, "EarthBack");
-		createEarthPlatform(map_x,-32, 256,32, true);
+		createEarthPlatform(map_x,-32, 768,32, true);
 		map_x += 128;
 		
 		createStandardEarth(map_x,340, 128,438);
@@ -124,6 +127,33 @@ public class World {
 		map_x += 128;
 		
 		createStandardEarth(map_x,372, 512,406);
+		createBackground(map_x,0, 512,372, "EarthBack");
+		map_x += 512;
+		createZombieSpawner(map_x -400,298, 7000);
+		createZombieSpawner(map_x -100,298, 7000);
+		
+		createForeground(map_x,372, 128,406, "");
+		createForeground(map_x,96, 128,276, "Rock");
+		createBackground(map_x,0, 128,96, "EarthBack");
+		map_x += 128;
+		
+		createStandardEarth(map_x,200, 2048,588);
+		createEarthPlatform(map_x+200,20, 196,32, false);
+		createEarthPlatform(map_x+600,-120, 196,32, false);
+		createEarthPlatform(map_x+1000,-200, 128,32, false);
+		createEarthPlatform(map_x+1400,-300, 196,32, false);
+		createEarthPlatform(map_x+1800,-300, 196,32, false);
+		createZombieSpawner(map_x+1400,-374, 6000);
+		createZombie(map_x+1100,-300);
+		createZombie(map_x+1900,-400);
+		map_x += 2048;
+		
+		createForeground(map_x,0, 128,788, "");
+		createForeground(map_x,-276, 128,276, "Rock");
+		map_x += 128;
+		
+		
+		
 
 		/*EndZone zone = new EndZone(500, 0, 300, 276);
 		zones.add(zone);*/
@@ -158,7 +188,7 @@ public class World {
 	// Macht in alle Richtungen Extras (46 links/rechts, 4 oben, 12 unten)
 	private static void createEarthPlatform(float x, float y, float width, float height, boolean shadow) throws SlickException {
 		createForeground(x, y, width, height, "");
-		createOverlay(x, y-4, width, 16, "GrassOverlay");
+		createOverlay(x, y-4, width, 15, "GrassOverlay");
 		createOverlay(x-4, y, 15, height, "GrassOverlayLeft");
 		createOverlay(x+width-12, y, 15, height, "GrassOverlayRight");
 		if (shadow)
@@ -167,8 +197,17 @@ public class World {
 	// Zombie erstellen
 	// Man muss sicherstellen, dass 48x73 daneben frei ist
 	private static void createZombie(float x, float y) throws SlickException {
-		Zombie z = new Zombie(x, y, 48, 73);
+		Zombie z = new Zombie(x, y, World.ZOMBIE_WIDTH, World.ZOMBIE_HEIGHT);
 		zombies.add(z);
+	}
+	// Zombiespawner erstellen
+	// Man muss sicherstellen, dass 48x73 daneben frei ist
+	private static void createZombieSpawner(float x, float y, int spawnRate) throws SlickException {
+		ZombieSpawner z = new ZombieSpawner((int) x, (int) y, spawnRate, true);
+		zombieSpawner.add(z);
+		Block b = new Block(x,y, World.ZOMBIE_WIDTH, World.ZOMBIE_HEIGHT);
+		b.setTexture(textures.get("Cave"));
+		backgroundTiles.add(b);
 	}
 
 	public static void update(GameContainer gc, int delta) throws SlickException {
