@@ -148,51 +148,54 @@ public class Player extends CharacterEntity {
 	 */
 	@Override
 	public void initAnimations() throws SlickException {
-		int width = 43;
-		int height = 75;
+		int width = 59;
+		int height = 71;
+		int animSpeed = 100;
 		
 		//Walk right
 		SpriteSheet sheet = new SpriteSheet("ressources/Hero.png", width, height);
 		Animation anim = new Animation();
 		anim.setAutoUpdate(true);
-		anim.addFrame(sheet.getSprite(0, 0), 200);
-		anim.addFrame(sheet.getSprite(1, 0), 200);
+		for(int i = 0; i < 8; i++) {
+			anim.addFrame(sheet.getSprite(0, i), animSpeed);
+		}
 		addAnimation("walkRight", anim);
 		
 		//Walk left
 		sheet = new SpriteSheet("ressources/Hero.png", width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		anim.addFrame(sheet.getSprite(2, 0), 200);
-		anim.addFrame(sheet.getSprite(3, 0), 200);
+		for(int i = 0; i < 8; i++) {
+			anim.addFrame(sheet.getSprite(0, i).getFlippedCopy(true, false), animSpeed);
+		}
 		addAnimation("walkLeft", anim);
 		
 		//Stand right
-		sheet = new SpriteSheet("ressources/Hero.png", 46, 75);
+		sheet = new SpriteSheet("ressources/Hero.png", width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		anim.addFrame(sheet.getSprite(0, 0), 200);
+		anim.addFrame(sheet.getSprite(0, 3), animSpeed);
 		addAnimation("standRight", anim);
 		
 		//Stand left
 		sheet = new SpriteSheet("ressources/Hero.png", width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		anim.addFrame(sheet.getSprite(3, 0), 200);
+		anim.addFrame(sheet.getSprite(0, 3).getFlippedCopy(true, false), animSpeed);
 		addAnimation("standLeft", anim);
 		
 		//Jump right
 		sheet = new SpriteSheet("ressources/Hero.png", width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		anim.addFrame(sheet.getSprite(0, 1), 200);
+		anim.addFrame(sheet.getSprite(0, 0), animSpeed);
 		addAnimation("jumpRight", anim);
 		
 		//Jump left
 		sheet = new SpriteSheet("ressources/Hero.png", width, height);
 		anim = new Animation();
 		anim.setAutoUpdate(true);
-		anim.addFrame(sheet.getSprite(1, 1), 200);
+		anim.addFrame(sheet.getSprite(0, 0).getFlippedCopy(true, false), animSpeed);
 		addAnimation("jumpLeft", anim);
 	}
 

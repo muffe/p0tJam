@@ -28,7 +28,7 @@ public class World {
 	
 	
 	public static void init() throws SlickException { //Enthaelt spaeter Pfad zu .xml Map Datei
-		player = new Player(100, 200, 46, 75); //x - y - breite - hoehe                        || HIER SPIELER POSITIONIEREN
+		player = new Player(100, 200, 59, 71); //x - y - breite - hoehe                        || HIER SPIELER POSITIONIEREN
 		
 		zombies = new ArrayList<Zombie>();
 		zombieSpawner = new ArrayList<ZombieSpawner>();
