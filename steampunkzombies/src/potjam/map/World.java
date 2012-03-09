@@ -103,8 +103,9 @@ public class World {
 		createEarthPlatform(400,100, 100, 32, false);
 		createEarthPlatform(700,-80, 150, 32, false);
 		map_x += 1024;
-		Zombie z = new Zombie(map_x-60, 190, zombieWidth, zombieHeight);
+		createZombie(map_x-60, 190);
 		zombies.add(z);
+		
 		
 		createForeground(map_x,0, 128,276, "Rock");
 		createForeground(map_x,276, 128,512, "");
@@ -151,17 +152,23 @@ public class World {
 	// Setzt 4 Pixel höher als y an, um das Gras oben drauf zu zeichnen
 	private static void createStandardEarth(float x, float y, float width, float height) throws SlickException {
 		createForeground(x, y, width, height, "");
-		createOverlay(x, y-4, width, 14, "GrassOverlay");
+		createOverlay(x, y-4, width, 16, "GrassOverlay");
 	}
 	// Erdplattform
 	// Macht in alle Richtungen Extras (46 links/rechts, 4 oben, 12 unten)
 	private static void createEarthPlatform(float x, float y, float width, float height, boolean shadow) throws SlickException {
 		createForeground(x, y, width, height, "");
-		createOverlay(x, y-4, width, 14, "GrassOverlay");
+		createOverlay(x, y-4, width, 16, "GrassOverlay");
 		createOverlay(x-4, y, 15, height, "GrassOverlayLeft");
 		createOverlay(x+width-12, y, 15, height, "GrassOverlayRight");
 		if (shadow)
 			createOverlay(x, y+height, width, 13, "EarthShadowOverlay");
+	}
+	// Zombie erstellen
+	// Man muss sicherstellen, dass 48x73 daneben frei ist
+	private static void createZombie(float x, float y) throws SlickException {
+		Zombie z = new Zombie(x, y, 48, 73);
+		zombies.add(z);
 	}
 
 	public static void update(GameContainer gc, int delta) throws SlickException {
