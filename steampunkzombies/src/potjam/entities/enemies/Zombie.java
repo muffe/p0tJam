@@ -28,6 +28,7 @@ public class Zombie extends CharacterEntity {
 	private ArrayList<Gib> gibs;
 	private float deathTime;
 	private float deathTimeCounter;
+	private float detectionRange;
 	
 	public Zombie(float x, float y, float width, float height) throws SlickException {
 		super(x, y, width, height);
@@ -45,6 +46,7 @@ public class Zombie extends CharacterEntity {
 		this.gibs = new ArrayList<Gib>();
 		this.deathTime = 3000.0f;
 		this.deathTimeCounter = 0.0f;
+		this.detectionRange = 200f;
 	}
 	
 
@@ -154,6 +156,18 @@ public class Zombie extends CharacterEntity {
 
 
 	private void moveAI(int delta) {
+		if(Math.abs(this.getMinX() - World.getPlayer().getMinX()) < this.detectionRange && !this.attacking) {
+			if(World.getPlayer().getMinX() < this.getMinX()) {
+				this.setLastMovingDirection(0);
+				this.setMoveSpeed(-this.getSpeed());
+				this.setAnimation(this.getAnimationByKey("left"+this.moveState), true);
+			} else {
+				this.setLastMovingDirection(1);
+				this.setMoveSpeed(this.getSpeed());
+				this.setAnimation(this.getAnimationByKey("right"+this.moveState), true);
+			}
+		}
+		
 		if(!collidedWithWorld(this.getMoveSpeed()*delta, 0) && !this.endOfBlockReached(delta)) {
 			if(!this.attacking)
 				this.move(delta);
@@ -287,5 +301,15 @@ public class Zombie extends CharacterEntity {
 			anim.addFrame(sheet.getSprite(i, 2).getFlippedCopy(true, false), animSpeedDeath);
 		}
 		addAnimation("leftDeathHeadless", anim);
+	}
+
+
+	public float getDetectionRange() {
+		return detectionRange;
+	}
+
+
+	public void setDetectionRange(float detectionRange) {
+		this.detectionRange = detectionRange;
 	}
 }

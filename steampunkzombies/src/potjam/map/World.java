@@ -8,15 +8,22 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import potjam.entities.Entity;
 import potjam.entities.Player;
 import potjam.entities.enemies.Zombie;
+import potjam.entities.enemies.ZombieSpawner;
 
 public class World {
+	public static final int ZOMBIE_WIDTH = 48;
+	public static final int ZOMBIE_HEIGHT = 73;
+	
 	private static Player player;
 	private static ArrayList<Zombie> zombies;
+	private static ArrayList<ZombieSpawner> zombieSpawner;
 	private static ArrayList<Block> backgroundTiles;
 	private static ArrayList<Block> tiles;
 	private static ArrayList<Block> foregroundTiles;
+	private static ArrayList<Entity> zones;				//Alle Zonen (Endzone, Triggerbereiche etc.) ohne Kollision
 	private static HashMap<String, Image> textures;
 	
 	
@@ -24,9 +31,11 @@ public class World {
 		player = new Player(100, 200, 46, 75); //x - y - breite - hoehe                        || HIER SPIELER POSITIONIEREN
 		
 		zombies = new ArrayList<Zombie>();
+		zombieSpawner = new ArrayList<ZombieSpawner>();
 		backgroundTiles = new ArrayList<Block>();
 		tiles = new ArrayList<Block>();
 		foregroundTiles = new ArrayList<Block>();
+		zones = new ArrayList<Entity>();
 		textures = new HashMap<String, Image>();
 		
 		loadTextures();
@@ -84,15 +93,14 @@ public class World {
 	 */
 	private static void loadMap() throws SlickException {
 		//Zombies - Breite und Hoehe bitte immer gleich lassen
-		/*int zombieWidth = 48;
-		int zombieHeight = 73;
-		
-		Zombie z = new Zombie(300, 100, zombieWidth, zombieHeight);
+		Zombie z = new Zombie(300, 100, ZOMBIE_WIDTH, ZOMBIE_HEIGHT);
 		zombies.add(z);
 		
-		z = new Zombie(700, 200, zombieWidth, zombieHeight);
+		/*z = new Zombie(700, 200, zombieWidth, zombieHeight);
 		zombies.add(z);*/
 
+		EndZone zone = new EndZone(500, 0, 300, 276);
+		zones.add(zone);
 
 		//Bloecke
 		Block b = new Block(-1000,-400, 1000, 1000);
@@ -143,6 +151,12 @@ public class World {
 			zombies.get(i).update(gc, delta);
 		}
 		
+		for(int i = 0; i < zombieSpawner.size(); i++) {
+			if(zombieSpawner.get(i).isEnabled()) {
+				zombieSpawner.get(i).update(delta);
+			}
+		}
+		
 		for(int i = 0; i < backgroundTiles.size(); i++) {
 			backgroundTiles.get(i).update(gc, delta);
 		}
@@ -153,6 +167,10 @@ public class World {
 		
 		for(int i = 0; i < foregroundTiles.size(); i++) {
 			foregroundTiles.get(i).update(gc, delta);
+		}
+		
+		for(int i = 0; i < zones.size(); i++) {
+			zones.get(i).update(gc, delta);
 		}
 	}
 	
@@ -168,6 +186,10 @@ public class World {
 		
 		for(int i = 0; i < tiles.size(); i++) {
 			tiles.get(i).draw(gc, g);
+		}
+		
+		for(int i = 0; i < zones.size(); i++) {
+			zones.get(i).draw(gc, g);
 		}
 
 		player.draw(gc, g);
@@ -195,6 +217,26 @@ public class World {
 	
 	public static void removeZombie(Zombie zombie) {
 		zombies.remove(zombie);
+	}
+	
+	public static ZombieSpawner getZombieSpawnerByIndex(int index) {
+		return zombieSpawner.get(index);
+	}
+	
+	public static void addZombieSpawner(ZombieSpawner zs) {
+		zombieSpawner.add(zs);
+	}
+	
+	public static int getZombieSpawnerListSize() {
+		return zombieSpawner.size();
+	}
+	
+	public static void removeZombieSpawnerByIndex(int index) {
+		zombieSpawner.remove(index);
+	}
+	
+	public static void removeZombieSpawner(ZombieSpawner zs) {
+		zombieSpawner.remove(zs);
 	}
 	
 	public static Block getTileByIndex(int index) {
