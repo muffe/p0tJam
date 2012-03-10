@@ -34,7 +34,7 @@ public class EndZone extends Entity {
 		}
 		
 		if(endReached) {
-			if(this.counter < this.timeMax*5) {
+			if(this.counter < this.timeMax*3) {
 				this.counter += delta;
 			} else {
 				this.endReached = false;
@@ -52,7 +52,7 @@ public class EndZone extends Entity {
 		}
 		
 		//Debug
-		g.draw(this);
+		//g.draw(this);
 	}
 
 	public int getCounter() {

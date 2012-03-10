@@ -12,6 +12,7 @@ import potjam.entities.Entity;
 import potjam.entities.Player;
 import potjam.entities.enemies.Zombie;
 import potjam.entities.enemies.ZombieSpawner;
+import potjam.shared.Camera;
 
 public class World {
 	public static final int ZOMBIE_WIDTH = 48;
@@ -118,8 +119,8 @@ public class World {
 		map_x += 128;
 		
 		createStandardEarth(map_x,308, 128,470);
-		createBackground(map_x,0, 128,308, "EarthBack");
-		createEarthPlatform(map_x,-32, 768,32, true);
+		createBackground(map_x-128,0, 256,308, "EarthBack");
+		createEarthPlatform(map_x,-32, 896,32, false);
 		map_x += 128;
 		
 		createStandardEarth(map_x,340, 128,438);
@@ -133,11 +134,14 @@ public class World {
 		createZombieSpawner(map_x -100,298, 7000);
 		
 		createForeground(map_x,372, 128,406, "");
-		createForeground(map_x,96, 128,276, "Rock");
-		createBackground(map_x,0, 128,96, "EarthBack");
+		createForeground(map_x, 0, 128,372, "Rock");
+		//createBackground(map_x,0, 128,96, "EarthBack");
 		map_x += 128;
 		
 		createStandardEarth(map_x,200, 2048,588);
+		createZombie(map_x+100, 100);
+		createZombie(map_x+400, 100);
+		createZombie(map_x+800, 100);
 		createEarthPlatform(map_x+200,20, 196,32, false);
 		createEarthPlatform(map_x+600,-120, 196,32, false);
 		createEarthPlatform(map_x+1000,-200, 128,32, false);
@@ -148,10 +152,32 @@ public class World {
 		createZombie(map_x+1900,-400);
 		map_x += 2048;
 		
-		createForeground(map_x,0, 128,788, "");
+		createForeground(map_x, 200, 128,788, "");
 		createForeground(map_x,-276, 128,276, "Rock");
+		createZombieSpawner(map_x-128, 125, 5000);
 		map_x += 128;
 		
+		createStandardEarth(map_x, 200, 3072, 1024);
+		createBackground(map_x-128, -276, 3072+128, 476, "EarthBack");
+		map_x += 128;
+		
+		createForeground(map_x+128, -56, 192, 256, "Rock");
+		createForeground(map_x+256, -184,192, 384, "Rock");
+		createForeground(map_x+386, -56, 192, 256, "Rock");
+		createForeground(map_x+512, 72, 192, 128, "Rock");
+		createZombieSpawner(map_x+768, 125, 5000);
+		createZombieSpawner(map_x+1024, 125, 5000);
+		createZombieSpawner(map_x+1280, 125, 5000);
+		
+		EndZone endZone = new EndZone(map_x+3072-386, 200-128, 386, 128);
+		zones.add(endZone);
+		
+		Block flag = new Block(map_x+3072-256, 200-128, 32, 128);
+		flag.setTexture("ressources/map/Flag.png");
+		backgroundTiles.add(flag);
+		map_x += 3072;
+		
+		createForeground(map_x-128, -500, 600, 1000, "Void");
 		
 		
 
@@ -241,6 +267,8 @@ public class World {
 	}
 	
 	public static void draw(GameContainer gc, Graphics g) {
+		player.getBackground().draw(gc, g);
+		
 		for(int i = 0; i < backgroundTiles.size(); i++) {
 			backgroundTiles.get(i).draw(gc, g);
 		}

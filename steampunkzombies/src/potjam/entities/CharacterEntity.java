@@ -77,12 +77,12 @@ public abstract class CharacterEntity extends CollisionEntity {
 			//Debug
 			//g.draw(this);
 		} else {
-			g.draw(this);
+			//g.draw(this);
 		}
 	}
 	
 	private void drawHealth(GameContainer gc, Graphics g) {
-		g.setColor(Color.red);
+		g.setColor(new Color(100, 0, 0));
 		g.fillRect(this.getMinX(), this.getMinY() - 10f, this.getHealthBarWidth(), this.getHealthBarHeight());
 	}
 	

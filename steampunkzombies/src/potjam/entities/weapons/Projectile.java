@@ -34,7 +34,7 @@ public class Projectile extends CollisionEntity {
 
 	@Override
 	public void draw(GameContainer gc, Graphics g) {
-		g.setColor(Color.white);
+		g.setColor(Color.lightGray);
 		g.fill(this);
 	}
 	

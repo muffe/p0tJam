@@ -20,6 +20,8 @@ import potjam.shared.Camera;
 import potjam.shared.MouseInput;
 
 public class PotJamMain extends BasicGame {
+	private Block crosshair;
+	
 	/**
 	 * Titel uebergen, initialisieren.
 	 * @param title
@@ -38,6 +40,9 @@ public class PotJamMain extends BasicGame {
 		Camera.init();
 		MouseInput.init();
 		World.init();
+		
+		crosshair = new Block(0, 0, 32, 32);
+		crosshair.setTexture("ressources/Fadenkreuz2.png");
 	}
 
 	/**
@@ -53,6 +58,13 @@ public class PotJamMain extends BasicGame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		crosshair.setX(MouseInput.getMouseX() - 16);
+		crosshair.setY(MouseInput.getMouseY() - 16);
+		
+		if(gc.getInput().isKeyDown(Input.KEY_ESCAPE)) {
+			gc.exit();
+		}
 	}
 
 	/**
@@ -60,12 +72,14 @@ public class PotJamMain extends BasicGame {
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setBackground(new Color(0,100,200));
+		g.setBackground(new Color(30, 5, 5));
 		
 		//Camera - Muss als erstes gezeichnet werden
 		Camera.draw(g);
 		
 		World.draw(gc, g);
+		
+		crosshair.draw(gc, g);
 	}
 	
 	/**
@@ -76,6 +90,7 @@ public class PotJamMain extends BasicGame {
 	public static void main(String[] args) throws SlickException {
 		PotJamMain game = new PotJamMain();
 		AppGameContainer app = new AppGameContainer(game, 1152, 648, false);
+		app.setMouseGrabbed(true);
 		app.start();
 	}
 

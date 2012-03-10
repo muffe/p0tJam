@@ -46,7 +46,8 @@ public class Zombie extends CharacterEntity {
 		this.gibs = new ArrayList<Gib>();
 		this.deathTime = 3000.0f;
 		this.deathTimeCounter = 0.0f;
-		this.detectionRange = 200f;
+		this.detectionRange = 100f;
+		this.setDrawStandardHealth(false);
 		this.setMoveSpeed(-this.getSpeed());
 	}
 	
@@ -157,7 +158,8 @@ public class Zombie extends CharacterEntity {
 
 
 	private void moveAI(int delta) {
-		if(Math.abs(this.getMinX() - World.getPlayer().getMinX()) < this.detectionRange && !this.attacking) {
+		if(Math.abs(this.getMinX() - World.getPlayer().getMinX()) < this.detectionRange &&
+				Math.abs(this.getMinY() - World.getPlayer().getMinY()) < this.detectionRange && !this.attacking) {
 			if(World.getPlayer().getMinX() < this.getMinX()) {
 				this.setLastMovingDirection(0);
 				this.setMoveSpeed(-this.getSpeed());

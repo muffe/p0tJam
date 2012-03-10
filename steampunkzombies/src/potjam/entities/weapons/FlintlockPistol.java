@@ -25,7 +25,7 @@ public class FlintlockPistol extends Weapon {
 		projectiles = new ArrayList<Projectile>();
 		speed = 2.0f;
 		projectileSize = 3;
-		this.setReUseTime(1000.0f);
+		this.setReUseTime(500.0f);
 		this.setDamage(50.0f);
 		gunShot = new Sound("ressources/sounds/FlintlockPistol_Shot.wav");
 	}

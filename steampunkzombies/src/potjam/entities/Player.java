@@ -10,10 +10,14 @@ import org.newdawn.slick.SpriteSheet;
 
 import potjam.entities.weapons.FlintlockPistol;
 import potjam.entities.weapons.Weapon;
+import potjam.map.Block;
 import potjam.shared.Camera;
 import potjam.shared.MouseInput;
 
 public class Player extends CharacterEntity {
+	
+	private Block background;
+	
 	/**
 	 * Position und Dimension.
 	 * @param x
@@ -32,6 +36,9 @@ public class Player extends CharacterEntity {
 		setAnimation(getAnimationByKey("standRight"), true);
 		Camera.centerCamera(1152, 648, this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
 		this.setActiveWeapon(new FlintlockPistol(this.getMinX(), this.getMinY(), this.getWidth(), this.getHeight(), this));
+		
+		background = new Block(this.getCenterX() - 1152/2, this.getCenterY() - 648/2, 1152, 648);
+		background.setTexture("ressources/map/Background.png");
 	}
 
 	/**
@@ -53,6 +60,9 @@ public class Player extends CharacterEntity {
 		Camera.centerCamera(gc.getWidth(), gc.getHeight(), this.getMinX() + this.getWidth()/2, this.getMinY() + this.getHeight()/2);
 		
 		this.checkDeath();
+		
+		background.setX(this.getCenterX() - 128);
+		background.setY(this.getCenterY() - 234);
 	}
 
 	public void draw(GameContainer gc, Graphics g) {
@@ -66,6 +76,7 @@ public class Player extends CharacterEntity {
 			this.setX(0);
 			this.setY(0);
 			this.setHitPoints(this.getHitPointsMax());
+			this.setHealthBarWidth(this.getHealthBarWidthMax() * (this.getHitPoints() / this.getHitPointsMax()));
 			this.setDead(false);
 		}
 	}
@@ -74,7 +85,7 @@ public class Player extends CharacterEntity {
 		g.setColor(Color.white);
 		g.drawString("Health: ", 15f - Camera.getShiftX(), 50f - Camera.getShiftY());
 		
-		g.setColor(Color.red);
+		g.setColor(new Color(200, 0, 0));
 		g.fillRect(90f - Camera.getShiftX(), 50f + this.getHealthBarHeight()/2f - Camera.getShiftY(), this.getHealthBarWidth(), this.getHealthBarHeight());
 	}
 
@@ -199,4 +210,11 @@ public class Player extends CharacterEntity {
 		addAnimation("jumpLeft", anim);
 	}
 
+	public Block getBackground() {
+		return background;
+	}
+
+	public void setBackground(Block background) {
+		this.background = background;
+	}
 }

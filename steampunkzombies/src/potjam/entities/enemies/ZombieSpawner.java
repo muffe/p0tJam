@@ -9,22 +9,29 @@ public class ZombieSpawner {
 	private int y;
 	private int spawnRate;
 	private boolean enabled;
-	private int counter;
+	private int rateCounter;
+	private int maxAmount;
+	private int currentAmount;
 	
 	public ZombieSpawner(int x, int y, int spawnRate, boolean enabled) {
 		this.x = x;
 		this.y = y;
 		this.spawnRate = spawnRate;
 		this.enabled = enabled;
+		this.currentAmount = 0;
+		this.maxAmount = 5;
 	}
 	
 	public void update(int delta) throws SlickException {
-		if(this.counter < this.spawnRate) {
-			this.counter += delta;
+		if(this.rateCounter < this.spawnRate) {
+			this.rateCounter += delta;
 		} else {
-			Zombie zombie = new Zombie(x, y, World.ZOMBIE_WIDTH, World.ZOMBIE_HEIGHT);
-			World.addZombie(zombie);
-			this.counter = 0;
+			if(this.currentAmount < this.maxAmount) {
+				Zombie zombie = new Zombie(x, y, World.ZOMBIE_WIDTH, World.ZOMBIE_HEIGHT);
+				World.addZombie(zombie);
+				this.rateCounter = 0;
+				this.currentAmount++;
+			}
 		}
 	}
 
@@ -61,10 +68,10 @@ public class ZombieSpawner {
 	}
 
 	public int getCounter() {
-		return counter;
+		return rateCounter;
 	}
 
 	public void setCounter(int counter) {
-		this.counter = counter;
+		this.rateCounter = counter;
 	}
 }
